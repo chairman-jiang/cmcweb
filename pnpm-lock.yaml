@@ -5,6 +5,7 @@ specifiers:
   '@types/qs': ^6.9.7
   '@vitejs/plugin-vue': ^2.0.0
   ant-design-vue: ^2.2.8
+  await-to-js: ^3.0.0
   axios: ^0.24.0
   husky: ^7.0.4
   less: ^4.1.2
@@ -12,12 +13,13 @@ specifiers:
   qs: ^6.10.2
   typescript: ^4.5.4
   unplugin-vue-components: ^0.17.11
-  vite: ^2.7.2
+  vite: ^2.7.10
   vite-plugin-style-import: ^1.4.1
   vue: ^3.2.25
 
 dependencies:
   ant-design-vue: 2.2.8_vue@3.2.26
+  await-to-js: 3.0.0
   axios: 0.24.0
   pinia: 2.0.9_typescript@4.5.4+vue@3.2.26
   qs: 6.10.2
@@ -271,6 +273,11 @@ packages:
 
   /async-validator/3.5.2:
     resolution: {integrity: sha512-8eLCg00W9pIRZSB781UUX/H6Oskmm8xloZfr09lz5bikRpBVDlJ3hRVuxxP1SxcwsEYfJ4IU8Q19Y8/893r3rQ==}
+    dev: false
+
+  /await-to-js/3.0.0:
+    resolution: {integrity: sha512-zJAaP9zxTcvTHRlejau3ZOY4V7SRpiByf3/dxx2uyKxxor19tpmpV2QRsTKikckwhaPmr2dVpxxMr7jOCYVp5g==}
+    engines: {node: '>=6.0.0'}
     dev: false
 
   /axios/0.24.0:
