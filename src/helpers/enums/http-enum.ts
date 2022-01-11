@@ -32,3 +32,9 @@ export enum ContentTypeEnum {
   // form-data  上传
   FORM_DATA = 'multipart/form-data;charset=UTF-8',
 }
+
+export enum PromiseStatus {
+  PENDING = 'pending',
+  FULFILLED = 'fulfilled',
+  REJECTED = 'rejected'
+}
