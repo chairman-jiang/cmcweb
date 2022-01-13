@@ -6,5 +6,12 @@ export const getMyMenuPermissionByMenuId = () => primaryRequest<API.MyMenuPermis
   url: createUmcUrl('/menu/findMyMenuPermissionByMenuId'),
   method: 'GET',
   data: { menuId },
-  errorMsgFlag: true
+  errorMsgFlag: false // 需要根据返回值自定义错误信息
 });
+
+export const signlogin = (data: Param.ISignlogin) => primaryRequest<API.SignloginModel>({
+  url: createUmcUrl('/signlogin'),
+  method: 'POST',
+  data,
+  errorMsgFlag: true
+})

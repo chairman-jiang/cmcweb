@@ -1,13 +1,17 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@types/crypto-js': ^4.1.0
+  '@types/js-cookie': ^3.0.1
   '@types/node': ^17.0.8
   '@types/qs': ^6.9.7
   '@vitejs/plugin-vue': ^2.0.0
   ant-design-vue: ^2.2.8
   await-to-js: ^3.0.0
   axios: ^0.24.0
+  crypto-js: ^4.1.1
   husky: ^7.0.4
+  js-cookie: ^3.0.1
   less: ^4.1.2
   pinia: ^2.0.9
   qs: ^6.10.2
@@ -16,16 +20,22 @@ specifiers:
   vite: ^2.7.10
   vite-plugin-style-import: ^1.4.1
   vue: ^3.2.25
+  vue-router: '4'
 
 dependencies:
   ant-design-vue: 2.2.8_vue@3.2.26
   await-to-js: 3.0.0
   axios: 0.24.0
+  crypto-js: 4.1.1
+  js-cookie: 3.0.1
   pinia: 2.0.9_typescript@4.5.4+vue@3.2.26
   qs: 6.10.2
   vue: 3.2.26
+  vue-router: 4.0.12_vue@3.2.26
 
 devDependencies:
+  '@types/crypto-js': 4.1.0
+  '@types/js-cookie': 3.0.1
   '@types/node': 17.0.8
   '@types/qs': 6.9.7
   '@vitejs/plugin-vue': 2.0.1_vite@2.7.10+vue@3.2.26
@@ -119,6 +129,14 @@ packages:
       core-js: 3.20.2
       nanopop: 2.1.0
     dev: false
+
+  /@types/crypto-js/4.1.0:
+    resolution: {integrity: sha512-DCFfy/vh2lG6qHSGezQ+Sn2Ulf/1Mx51dqOdmOKyW5nMK3maLlxeS3onC7r212OnBM2pBR95HkAmAjjF08YkxQ==}
+    dev: true
+
+  /@types/js-cookie/3.0.1:
+    resolution: {integrity: sha512-7wg/8gfHltklehP+oyJnZrz9XBuX5ZPP4zB6UsI84utdlkRYLnOm2HfpLXazTwZA+fpGn0ir8tGNgVnMEleBGQ==}
+    dev: true
 
   /@types/lodash/4.14.178:
     resolution: {integrity: sha512-0d5Wd09ItQWH1qFbEyQ7oTQ3GZrMfth5JkbN3EvTKLXcHLRDSXeLnlvlOn0wvxVIwK5o2M8JzP/OWz7T3NRsbw==}
@@ -390,6 +408,10 @@ packages:
   /core-js/3.20.2:
     resolution: {integrity: sha512-nuqhq11DcOAbFBV4zCbKeGbKQsUDRqTX0oqx7AttUBuqe3h20ixsE039QHelbL6P4h+9kytVqyEtyZ6gsiwEYw==}
     requiresBuild: true
+    dev: false
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
     dev: false
 
   /csstype/2.6.19:
@@ -758,6 +780,11 @@ packages:
   /is-what/3.14.1:
     resolution: {integrity: sha512-sNxgpk9793nzSs7bA6JQJGeIuRBQhAaNGG77kzYQgMkrID+lS6SlK07K5LaptscDlSaIgH+GPFzf+d75FVxozA==}
     dev: true
+
+  /js-cookie/3.0.1:
+    resolution: {integrity: sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==}
+    engines: {node: '>=12'}
+    dev: false
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -1241,6 +1268,15 @@ packages:
       '@vue/composition-api':
         optional: true
     dependencies:
+      vue: 3.2.26
+    dev: false
+
+  /vue-router/4.0.12_vue@3.2.26:
+    resolution: {integrity: sha512-CPXvfqe+mZLB1kBWssssTiWg4EQERyqJZes7USiqfW9B5N2x+nHlnsM1D3b5CaJ6qgCvMmYJnz+G0iWjNCvXrg==}
+    peerDependencies:
+      vue: ^3.0.0
+    dependencies:
+      '@vue/devtools-api': 6.0.0-beta.21.1
       vue: 3.2.26
     dev: false
 

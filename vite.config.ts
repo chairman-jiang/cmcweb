@@ -6,6 +6,7 @@ import {
 import Components from 'unplugin-vue-components/vite'
 import styleImport, { AndDesignVueResolve } from 'vite-plugin-style-import';
 import path from 'path';
+// import Pages from 'vite-plugin-pages';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -22,7 +23,7 @@ export default defineConfig({
         libraryName: 'ant-design-vue',
         esModule: true,
         resolveStyle: (name) => {
-          return `ant-design-vue/es/${name}/style/index.css`;
+          return `ant-design-vue/es/${name}/style/index.less`;
         }
       }]
     }),
@@ -33,10 +34,24 @@ export default defineConfig({
         // (name) => {
         //   console.log(name, 'name')
         // }
-        AntDesignVueResolver()
+        AntDesignVueResolver({
+          importStyle: 'less'
+        })
       ]
     })
   ],
+  css: {
+    preprocessorOptions: {
+      less: {
+        modifyVars: {
+          'primary-color': '#5e81ff',
+          'link-color': '#5e81ff'
+        },
+        // additionalData: '@import "./src/style/theme.less";',
+        javascriptEnabled: true
+      }
+    }
+  },
   server: {
     proxy: {
       '/api': {

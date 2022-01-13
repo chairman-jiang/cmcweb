@@ -1,12 +1,23 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 
-export const useUserStore = defineStore({
-  id: 'user',
-  state: () => ({
+const state: API.SignloginModel = {
+  loginName: '',
+  userId: '',
+  userName: '',
+  userNumber: '',
+  password: '',
+  mobile: '',
+  email: '',
+  sex: '',
+  pictureBase64: ''
+}
 
-  }),
+export const useUserStore = defineStore('user', {
+  state: () => {
+    return state;
+  },
   getters: {
-
+    
   },
   actions: {
 

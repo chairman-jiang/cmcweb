@@ -1,0 +1,1 @@
+type PermissionCallback = (err: Error | null) => void

@@ -26,4 +26,15 @@ type permissionItem = {
 
 declare namespace API {
   type MyMenuPermissionModel = permissionItem[]
+  type SignloginModel = {
+    loginName: string
+    userId: string
+    userName: string
+    userNumber: string
+    password: string
+    mobile: string | null
+    email: string | null
+    sex: string
+    pictureBase64: string | null
+  }
 }
