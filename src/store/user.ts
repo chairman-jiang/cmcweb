@@ -17,10 +17,18 @@ export const useUserStore = defineStore('user', {
     return state;
   },
   getters: {
-    
+    getUserInfo(state) : API.SignloginModel {
+      return state;
+    }
   },
   actions: {
-
+    dispatchUserInfo(data: API.SignloginModel) {
+      for (const key in this) {
+        if (Object.prototype.hasOwnProperty.call(this, key)) {
+          Reflect.has(data, key) && Reflect.set(this, key, data[key]);
+        }
+      }
+    }
   }
 });
 

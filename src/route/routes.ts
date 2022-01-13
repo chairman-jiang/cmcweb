@@ -1,10 +1,12 @@
 import { RouteRecordRaw } from 'vue-router';
+import Home from '@/view/home/index.vue';
 
 export const routes: RouteRecordRaw[] = [
-  // {
-  //   path: '/',
-  //   redirect: ''
-  // },
+  {
+    path: '/',
+    name: 'Home',
+    component: Home
+  },
   {
     path: '/login',
     name: 'Login',

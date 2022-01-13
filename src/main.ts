@@ -16,7 +16,7 @@ store.dispatchPermissionList((err) => {
       message.error(err.message);
       !isInLogin && router.replace('/login');
     } else {
-      // !isInLogin && router.replace('/');
+      isInLogin && router.replace('/');
     }
   })
 });

@@ -36,5 +36,6 @@ declare namespace API {
     email: string | null
     sex: string
     pictureBase64: string | null
+    [index: string]: string | null
   }
 }

@@ -54,11 +54,10 @@ export async function primaryRequest<T = any>(config: RequestConfig) : Promise<T
     promiseResult = error;
     return Promise.reject(error);
   } finally {
-    if (successMsgFlag || errorMsgFlag) {
-      const isFulfilled = promiseStatus === PromiseStatus.FULFILLED;
-      const defaultMsg = isFulfilled ? '成功' : '失败';
-      const msg = isFulfilled ? (promiseResult as AxiosResponse).data?.msg : (promiseResult as AxiosError)?.message;
-      message[isFulfilled ? 'success' : 'error'](msg || defaultMsg);
-    }
+    const isFulfilled = promiseStatus === PromiseStatus.FULFILLED;
+    const defaultMsg = isFulfilled ? '成功' : '失败';
+    const msg = isFulfilled ? (promiseResult as AxiosResponse).data?.msg : (promiseResult as AxiosError)?.message;
+    successMsgFlag && message.success(msg || defaultMsg);
+    errorMsgFlag && message.error(msg || defaultMsg);
   }
 }

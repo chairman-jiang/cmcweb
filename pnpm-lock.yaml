@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@ant-design/icons-vue': ^6.0.1
   '@types/crypto-js': ^4.1.0
   '@types/js-cookie': ^3.0.1
   '@types/node': ^17.0.8
@@ -23,6 +24,7 @@ specifiers:
   vue-router: '4'
 
 dependencies:
+  '@ant-design/icons-vue': 6.0.1_vue@3.2.26
   ant-design-vue: 2.2.8_vue@3.2.26
   await-to-js: 3.0.0
   axios: 0.24.0

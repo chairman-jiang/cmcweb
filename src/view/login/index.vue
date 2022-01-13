@@ -28,9 +28,15 @@
 </template>
 <script setup lang="ts">
 import { onBeforeUnmount, onMounted, reactive, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { signlogin } from '@/api/umc';
 import { Encrypt } from '@/utils';
-import { Form } from 'ant-design-vue';
+import { Form, message } from 'ant-design-vue';
+import { useUserStore } from '@/store/user';
+import { usePermissionStore } from '@/store/permission';
+const userStore = useUserStore();
+const usePermission = usePermissionStore();
+const router = useRouter();
 const form = reactive<Param.ISignlogin>({
   loginName: '',
   password: ''
@@ -45,10 +51,14 @@ const rules: IRules = {
 }
 const loading = ref<boolean>(false);
 const { validateInfos, validate } = Form.useForm(form, rules);
+
 const handleFormSubmit = () => {
   loading.value = true;
   signlogin({loginName: form.loginName, password: Encrypt(form.password)}).then(res => {
-
+    userStore.dispatchUserInfo(res);
+    usePermission.dispatchPermissionList((err) => {
+      err ? message.error(err.message) : router.replace('/');
+    });
   }).finally(() => {
     loading.value = false;
   })
@@ -77,8 +87,8 @@ onBeforeUnmount(() => {
     margin: 10vh auto;
   }
   .login-card__left {
-    height: 75%;
-    width: 56%;
+    height: 80%;
+    width: 60%;
     background: url('../../assets/login-bg2@2x.png') no-repeat center;
     background-size: 100% 100%;
   }
