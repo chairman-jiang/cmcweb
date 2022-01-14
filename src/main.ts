@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, App as VueInstance } from 'vue';
 import router from '@/route';
 import App from './App.vue';
 import { createPinia } from 'pinia';
@@ -6,10 +6,11 @@ import { usePermissionStore } from '@/store/permission';
 import { message } from 'ant-design-vue';
 import '@/style/index.less';
 
-createApp(App).use(router).use(createPinia()).mount('#app');
+const app: VueInstance = createApp(App);
+app.use(router).use(createPinia()).mount('#app');
 
 const store = usePermissionStore();
-store.dispatchPermissionList((err) => {
+store.dispatchPermissionList(app, (err) => {
   const isInLogin: boolean = window.location.pathname.startsWith('/login');
   router.isReady().then(() => {
     if (err) {

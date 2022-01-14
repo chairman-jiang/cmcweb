@@ -27,7 +27,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, reactive, ref } from 'vue';
+import { onBeforeUnmount, onMounted, reactive, ref, getCurrentInstance, App } from 'vue';
 import { useRouter } from 'vue-router';
 import { signlogin } from '@/api/umc';
 import { Encrypt } from '@/utils';
@@ -37,6 +37,7 @@ import { usePermissionStore } from '@/store/permission';
 const userStore = useUserStore();
 const usePermission = usePermissionStore();
 const router = useRouter();
+const app = getCurrentInstance();
 const form = reactive<Param.ISignlogin>({
   loginName: '',
   password: ''
@@ -56,8 +57,9 @@ const handleFormSubmit = () => {
   loading.value = true;
   signlogin({loginName: form.loginName, password: Encrypt(form.password)}).then(res => {
     userStore.dispatchUserInfo(res);
-    usePermission.dispatchPermissionList((err) => {
-      err ? message.error(err.message) : router.replace('/');
+    usePermission.dispatchPermissionList((app?.appContext.app as App), (err) => {
+      message[err ? 'error' : 'success'](err ? err.message : `登陆成功 Hi~${res.userName}`);
+      !err && router.replace('/');
     });
   }).finally(() => {
     loading.value = false;

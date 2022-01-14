@@ -45,7 +45,9 @@ export default defineConfig({
       less: {
         modifyVars: {
           'primary-color': '#5e81ff',
-          'link-color': '#5e81ff'
+          'link-color': '#5e81ff',
+          // 'menu-dark-color': '#1F263E',
+          // 'menu-dark-bg': '#1F263E',
         },
         // additionalData: '@import "./src/style/theme.less";',
         javascriptEnabled: true

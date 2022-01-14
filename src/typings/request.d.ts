@@ -10,10 +10,12 @@ type Method =
   | 'link' | 'LINK'
   | 'unlink' | 'UNLINK';
 
+type primaryMethod = 'get' | 'GET' | 'post' | 'POST';
+
 type contentType = 'JSON' | 'TEXT' | 'FORM_URLENCODED' | 'FORM_DATA';
 interface RequestConfig {
   url: string
-  method?: Method
+  method?: primaryMethod
   data: object
   successMsgFlag?: boolean
   errorMsgFlag?: boolean,

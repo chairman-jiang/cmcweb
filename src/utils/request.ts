@@ -57,7 +57,7 @@ export async function primaryRequest<T = any>(config: RequestConfig) : Promise<T
     const isFulfilled = promiseStatus === PromiseStatus.FULFILLED;
     const defaultMsg = isFulfilled ? '成功' : '失败';
     const msg = isFulfilled ? (promiseResult as AxiosResponse).data?.msg : (promiseResult as AxiosError)?.message;
-    successMsgFlag && message.success(msg || defaultMsg);
-    errorMsgFlag && message.error(msg || defaultMsg);
+    successMsgFlag && isFulfilled && message.success(msg || defaultMsg);
+    errorMsgFlag && !isFulfilled && message.error(msg || defaultMsg);
   }
 }

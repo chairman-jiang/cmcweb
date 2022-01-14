@@ -1,4 +1,4 @@
-type fieldModel = {
+interface IFieldModel {
   added: number
   edit: number
   del: number
@@ -11,7 +11,7 @@ type fieldModel = {
   var2: string // 字段备注
 }
 
-type permissionItem = {
+interface IPermissionItemModel {
   added: number
   edit: number
   del: number
@@ -20,12 +20,15 @@ type permissionItem = {
   permissionName: string
   permissionSort: number
   permissionUrl: string
-  fieldList: fieldModel[]
-  children: permissionItem[]
+  var1: string
+  fieldList: IFieldModel[]
+  children: IPermissionItemModel[]
 }
 
 declare namespace API {
-  type MyMenuPermissionModel = permissionItem[]
+  // findMyMenuPermissionByMenuId
+  type MyMenuPermissionModel = IPermissionItemModel[]
+  // signlogin
   type SignloginModel = {
     loginName: string
     userId: string
