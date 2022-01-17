@@ -30,6 +30,16 @@ export const Decrypt = (word: string) : string => {
   return decryptedStr.toString();
 };
 
+export const base64Encode = (value: string) : string => {
+  const wordArray = Utf8.parse(value);
+  return Base64.stringify(wordArray);
+}
+
+export const base64Decode = (value : string) : string => {
+  const wordArray = Base64.parse(value);
+  return wordArray.toString(Utf8);
+};
+
 export const isObject = (val: any) : boolean => typeof val === 'object' && val !== null;
 export const isPlainObject = (val: any) : boolean => Object.prototype.toString.call(val) === '[object Object]';
 export const isArray = Array.isArray;

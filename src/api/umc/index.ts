@@ -8,9 +8,18 @@ export const getMyMenuPermissionByMenuId = () => primaryRequest<API.MyMenuPermis
   data: { menuId }
 });
 
-export const signlogin = (data: Param.ISignlogin) => primaryRequest<API.SignloginModel>({
+export const signlogin = (data: Param.ISignlogin) => primaryRequest<API.UserInfo>({
   url: createUmcUrl('/signlogin'),
   method: 'POST',
   data,
   errorMsgFlag: true
-})
+});
+
+export const findUserByUserId = (data: Param.IFindUserByUserId) => primaryRequest<API.UserInfo>({
+  url: createUmcUrl('/user/findUserByUserId'),
+  method: 'POST',
+  data,
+  errorMsgFlag: true
+});
+
+

@@ -3,4 +3,9 @@ declare namespace Param {
     loginName: string
     password: string
   }
+
+  interface IFindUserByUserId {
+    menuId: string
+    userId: string
+  }
 }

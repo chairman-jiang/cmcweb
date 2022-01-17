@@ -30,10 +30,12 @@
 import { onBeforeUnmount, onMounted, reactive, ref, getCurrentInstance, App } from 'vue';
 import { useRouter } from 'vue-router';
 import { signlogin } from '@/api/umc';
-import { Encrypt } from '@/utils';
+import { Encrypt, base64Encode } from '@/utils';
 import { Form, message } from 'ant-design-vue';
 import { useUserStore } from '@/store/user';
 import { usePermissionStore } from '@/store/permission';
+import { cookieUserIdKey } from '@/helpers/enums';
+import cookies from 'js-cookie';
 const userStore = useUserStore();
 const usePermission = usePermissionStore();
 const router = useRouter();
@@ -56,7 +58,9 @@ const { validateInfos, validate } = Form.useForm(form, rules);
 const handleFormSubmit = () => {
   loading.value = true;
   signlogin({loginName: form.loginName, password: Encrypt(form.password)}).then(res => {
-    userStore.dispatchUserInfo(res);
+    userStore.dispatchSyncUserInfo(res);
+    const base64UserId = base64Encode(res.userId);
+    cookies.set(cookieUserIdKey, base64UserId, { expires: new Date(new Date().getTime() + 288e5) });
     usePermission.dispatchPermissionList((app?.appContext.app as App), (err) => {
       message[err ? 'error' : 'success'](err ? err.message : `登陆成功 Hi~${res.userName}`);
       !err && router.replace('/');

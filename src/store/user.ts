@@ -1,6 +1,7 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
-
-const state: API.SignloginModel = {
+import { findUserByUserId } from '@/api/umc';
+import { menuId } from '@/helpers';
+const state: API.UserInfo = {
   loginName: '',
   userId: '',
   userName: '',
@@ -17,17 +18,22 @@ export const useUserStore = defineStore('user', {
     return state;
   },
   getters: {
-    getUserInfo(state) : API.SignloginModel {
+    getUserInfo(state) : API.UserInfo {
       return state;
     }
   },
   actions: {
-    dispatchUserInfo(data: API.SignloginModel) {
+    dispatchSyncUserInfo(data: API.UserInfo) {
       for (const key in this) {
         if (Object.prototype.hasOwnProperty.call(this, key)) {
           Reflect.has(data, key) && Reflect.set(this, key, data[key]);
         }
       }
+    },
+    dispatchUserInfo(userId: string) {
+      findUserByUserId({menuId: menuId, userId}).then(res => {
+        this.dispatchSyncUserInfo(res);
+      })
     }
   }
 });
