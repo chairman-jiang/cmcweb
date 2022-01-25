@@ -9,3 +9,8 @@ interface IMenuItem {
 }
 
 type MenuList = IMenuItem[]
+
+interface IRouteItem {
+  routeName: string
+  path: string
+}

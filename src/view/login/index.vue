@@ -11,7 +11,7 @@
           <div class="content-form">
             <a-form :model="form" autocomplete="off" @submit.prevent="handleFormSubmit" :label-col="{span: 4}" :wrapper-col="{ span: 16 }">
               <a-form-item label="用户名" name="loginName" :rules="rules.loginName" v-bind="validateInfos.loginName">
-                <a-input v-model:value="form.loginName" placeholder="请输入用户名" />
+                <a-input v-model:value="form.loginName" type="text" placeholder="请输入用户名" />
               </a-form-item>
               <a-form-item label="密码" name="password" :rules="rules.password" v-bind="validateInfos.password">
                 <a-input-password v-model:value="form.password" placeholder="请输入密码" autocomplete="new-password" />

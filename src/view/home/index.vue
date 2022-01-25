@@ -3,7 +3,9 @@
     <Aside></Aside>
     <main class="contract-home__main">
       <Header></Header>
-      <main class="contract-home__submain"></main>
+      <main class="contract-home__submain">
+        <router-view></router-view>
+      </main>
     </main>
   </div>
 </template>
@@ -21,6 +23,7 @@ import Header from './components/header.vue';
     flex: 1;
     .contract-home__submain {
       height: calc(100% - 80px);
+      padding: 15px;
     }
   }
 }

@@ -8,6 +8,16 @@
   </head>
   <body>
     <div id="app"></div>
+    <script>
+      ~function() {
+        function setHtmlFontSize () {
+          var deviceWidth = document.documentElement.clientWidth > 1920 ? 1920 : document.documentElement.clientWidth < 1366 ? 1366 : document.documentElement.clientWidth;
+          document.getElementsByTagName('html')[0].style.cssText = 'font-size:' + deviceWidth / 19.20 + 'px !important';
+        }
+        setHtmlFontSize();
+        window.addEventListener('resize', setHtmlFontSize)
+      }()
+    </script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

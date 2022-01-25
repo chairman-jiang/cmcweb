@@ -32,7 +32,7 @@ const menuIconLookup = (app: App) => {
       return prv.concat([{
         permissionId: cur.permissionId,
         permissionName: cur.permissionName,
-        permissionUrl: cur.permissionUrl,
+        permissionUrl: cur.permissionUrl.replace(/\/home/g, ''),
         var1: cur.var1,
         children: isArrayHasContents(cur.children) ? menuFilter(cur.children) : []
       }])
@@ -42,6 +42,31 @@ const menuIconLookup = (app: App) => {
   }, []);
   return menuFilter;
 }
+
+const accordingToUrlFindPermission = (url: string, permissionList: API.MyMenuPermissionModel) : IPermissionItemModel | undefined => {
+  let result: IPermissionItemModel | undefined;
+  function findNode (node: IPermissionItemModel) {
+    if (!node) {
+      return undefined;
+    }
+    if (node.permissionUrl.replace(/\/home/g, '') === url) {
+      result = node;
+      return node;
+    }
+    if (isArrayHasContents(node.children)) {
+      for (let index = 0; index < node.children.length; index++) {
+        findNode(node.children[index]);
+      }
+    }
+  }
+
+  for (const iterator of permissionList) {
+    findNode(iterator);
+    if (result) break;
+  }
+
+  return result;
+};
 
 export const usePermissionStore = defineStore('permission', {
   // id
@@ -62,6 +87,13 @@ export const usePermissionStore = defineStore('permission', {
       }).catch(err => {
         callback(err);
       });
+    },
+    dispatchCurrentPermission(url: string) {
+      const node = accordingToUrlFindPermission(url, this.permissionList);
+      console.log(node, 'node');
+      if (node) {
+        this.currentPermission = node;
+      }
     }
   }
 });

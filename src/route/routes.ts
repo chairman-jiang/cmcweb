@@ -5,7 +5,14 @@ export const routes: RouteRecordRaw[] = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    children: [
+      {
+        path: '/dataBoard',
+        name: 'DataBoard',
+        component: () => import('@/view/charts/contract-data-board/index.vue')
+      }
+    ]
   },
   {
     path: '/login',
