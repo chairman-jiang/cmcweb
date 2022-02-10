@@ -85,6 +85,7 @@ const chartList = useChartList();
 const printFlag = ref<boolean>(false);
 
 findContractBoard({ isContract: 1 }).then(res => {
+  // 顶部4条看板
   const convertValue = (val: string) : string => numberReg.test(val) ? Number(val).toLocaleString() : '';
   const now = new Date();
   dataBoardList.value.forEach(t => {
@@ -93,13 +94,17 @@ findContractBoard({ isContract: 1 }).then(res => {
     t.historyMoney = convertValue(res[t.historyMoneyKey]);
     t.subTitle = now.getMonth() + 1 + t.subTitle;
   });
+  // 获取区域柱状图渲染函数, 在这里初始化是避免此函数内部循环useRouter
   const initLineChart = useInitAreaLineChart();
+  // 区域图表部分
   chartList.forEach(t => {
+    // 饼状图数据
     const pieData : IAreaPieChartModel = {
       ...t,
       legend: [],
       list: []
     };
+    // 柱状图数据
     const lineData: IAreaLineChartModel = {
       ...t,
       result: res[t.resultKey],
@@ -124,6 +129,7 @@ findContractBoard({ isContract: 1 }).then(res => {
     }
   });
 
+  // 本年度趋势图表数据
   const monthSaleLine: IMonthSaleLine = {
     totalMoneyList: [],
     receiptMoneyList: [],
@@ -159,6 +165,7 @@ findContractBoard({ isContract: 1 }).then(res => {
   useInitMonthSaleLineChart(monthSaleLine);
   useInitContractAmountLineChart(monthContractAmountLine);
 
+  // 重要信息占比数据
   const firstPartyNature: IFirstPartyNatureChartModel = {
     legend: [],
     list: []
@@ -174,6 +181,10 @@ findContractBoard({ isContract: 1 }).then(res => {
   useInitImportantMessageBarChart(firstPartyNature);
 });
 
+/**
+ * @param type
+ * @description 打印事件
+ */
 const handlePrint = (type: 'pdf' | 'print' = 'print') => {
   message.loading({content: '正在加载...'});
   printFlag.value = true;
