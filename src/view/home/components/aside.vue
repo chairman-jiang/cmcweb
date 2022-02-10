@@ -1,10 +1,10 @@
 <template>
-  <div class="contract-home__aside" :style="{width: menuExpandState ? '80px' : '220px'}">
+  <div class="contract-home__aside" :style="{flexBasis: menuExpandState ? '80px' : '220px'}">
     <header class="aside-head" :style="{width: menuExpandState ? '80px' : '100%'}">
       <div class="head-logo" @click="handleClickLogoView">
         <img class="logo-picture" src="@/assets/logo@2x.png"/>
         <div class="head-system-name" v-show="!menuExpandState">
-          <p>REAL合同系统</p>
+          <p>VBFI业财易</p>
           <p>{{version}}</p>
         </div>
       </div>

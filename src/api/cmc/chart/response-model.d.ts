@@ -1,27 +1,24 @@
 
+interface IContractBoardChartListItem {
+  areaName: string
+  areaOrgId: string | null
+  contractNum?: number | null
+  money?: number | null
+  [index: string]: any
+}
 
 declare namespace API {
 
   type findContractBoardModel = {
-    areaContractNumList: {
-      areaName: string
-      contractNum: number | null
-    }[]
-    areaMoneyList: {
-      areaName: string
-      money: string | null
-    }[]
-    areaOverdueList: {
-      areaName: string
-      money: string | null
-    }[]
-    areaReceiptList: {
-      areaName: string
-      money: string | null
-    }[]
+    areaContractNumList: IContractBoardChartListItem[]
+    areaMoneyList: IContractBoardChartListItem[]
+    areaOverdueList: IContractBoardChartListItem[]
+    areaReceiptList: IContractBoardChartListItem[]
     firstPartyNatureList: {
+      contractNum: number | null
+      firstPartyNatureId: number
       firstPartyNatureName: string
-      totalMoney: string | null
+      totalMoney: string
     }[]
     historyContractMoney: string
     historyContractNum: number
@@ -33,9 +30,16 @@ declare namespace API {
     monthAddReceiptMoney: string
     monthContractNumList: {
       contractMonth: string
+      addNum: number
+      addOverdueNum: number
+      totalNum: number
+      totalOverdueNum: number
     }[]
     monthMoneyList: {
       contractMonth: string
+      overdueMoney: string
+      receiptMoney: string
+      totalMoney: string
     }[]
     totalContractMoney: string
     totalContractNum: string

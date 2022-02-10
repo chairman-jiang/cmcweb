@@ -34,7 +34,8 @@ export const useUserStore = defineStore('user', {
       findUserByUserId({menuId: menuId, userId}).then(res => {
         this.dispatchSyncUserInfo(res);
       })
-    }
+    },
+    dispatchSignout() {}
   }
 });
 

@@ -63,7 +63,7 @@ const handleFormSubmit = () => {
     cookies.set(cookieUserIdKey, base64UserId, { expires: new Date(new Date().getTime() + 288e5) });
     usePermission.dispatchPermissionList((app?.appContext.app as App), (err) => {
       message[err ? 'error' : 'success'](err ? err.message : `登陆成功 Hi~${res.userName}`);
-      !err && router.replace('/');
+      !err && router.replace('/dataBoard');
     });
   }).finally(() => {
     loading.value = false;

@@ -49,14 +49,16 @@ interface ISortItem {
   [index: string]: string
 }
 
-export const sort = (list: [], key: string) : [] => {
+export const sort = (list: [], key: string, sortType: 'asc' | 'desc' = 'asc') : [] => {
+  const v1: number = sortType === 'asc' ? 1 : -1;
+  const v2: number = sortType === 'asc' ? -1 : 1;
   return list.sort((a: ISortItem, b: ISortItem) => {
     let first = a[key] ? Number(a[key]) : 0;
     let second = b[key] ? Number(b[key]) : 0;
     if (first < second) {
-      return 1;
+      return v1;
     } else if (first > second) {
-      return -1;
+      return v2;
     } else {
       return 0;
     }
