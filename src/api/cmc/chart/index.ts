@@ -1,9 +1,16 @@
 import { primaryRequest } from "@/utils/request";
 import { createCmcUrl } from '../other';
 
-export const findContractBoard = (data: Param.IFindContractBoard) => primaryRequest<API.findContractBoardModel>({
+export const findReportContractBoard = (data: Param.IFindContractBoard) => primaryRequest<API.findReportContractBoardModel>({
   url: createCmcUrl('/report/findContractBoard'),
   method: 'GET',
   data,
+  errorMsgFlag: true
+});
+
+export const findReportContractSellAnalyzeTotalVo = () => primaryRequest<API.findReportContractSellAnalyzeTotalVo>({
+  url: createCmcUrl('/report/findContractSellAnalyzeTotalVo'),
+  method: 'GET',
+  data: {},
   errorMsgFlag: true
 });

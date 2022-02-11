@@ -23,7 +23,6 @@ export default function SlLoading(options?: ILoadingConfig) {
         // tsignore
         config.target = (queryElement as HTMLElement);
       }
-      
     }
     !config.target.style.position && (config.target.style.position = 'relative') && (recover = true);
     container.style.position = 'absolute';

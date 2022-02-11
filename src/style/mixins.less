@@ -1,0 +1,34 @@
+.data-board-card-flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 15px;
+
+  .board-card-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-radius: 5px;
+    padding: .2rem .17rem;
+  }
+
+  .board-item-title {
+    position: relative;
+    font-size: .16rem;
+    font-family: PingFangSC-Regular,PingFang SC;
+    font-weight: 400;
+    color:rgba(255, 255, 255, .7);
+    padding-left: .10rem;
+    &::before {
+      content: "";
+      position: absolute;
+      height: .05rem;
+      width: .05rem;
+      border-radius: 50%;
+      background: white;
+      top: 50%;
+      transform: translateY(-50%);
+      left: 0px;
+    }
+  }
+}

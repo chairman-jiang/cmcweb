@@ -15,6 +15,14 @@ export const routes: RouteRecordRaw[] = [
         path: '/dataBoard',
         name: 'DataBoard',
         component: () => import('@/view/charts/contract-data-board/index.vue')
+      },
+      {
+        path: '/contractSaleAnalysis',
+        name: 'ContractSaleAnalysis',
+        component: () => import('@/view/charts/contract-sale-analysis/index.vue'),
+        meta: {
+          oldPath: '/marketChart'
+        }
       }
     ]
   },

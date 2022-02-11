@@ -1,1 +1,1 @@
-export const menuId: string = '8c20a81c35eb44058f2e74dd5ef03d1f';
+export const menuId: string = '6a1da074d3144cc5b984ba7503a55aae';

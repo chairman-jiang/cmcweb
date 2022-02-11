@@ -16,7 +16,7 @@
            <!-- <component is="step-backward-outlined"></component> -->
         </template>
         <template #title>{{item.permissionName}}</template>
-        <a-menu-item v-for="child in item.children" :key="child.permissionId" @click="handleMenuItemClick(child)">
+        <a-menu-item v-for="child in item.children" :key="child.permissionId" @click.stop="handleMenuItemClick(child)">
           <template #icon>
             <StepBackwardOutlined/>
           </template>
@@ -72,8 +72,8 @@ const handleMenuSubItemClick = (item: IMenuItem) => {
     });
   }
 }
-
 const handleMenuItemClick = (item: IMenuItem) => {
+  console.log(item, '--');
   router.push(item.permissionUrl);
   routeStore.dispatchRoutesForAdd({
     routeName: item.permissionName,

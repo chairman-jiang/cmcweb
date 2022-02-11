@@ -49,7 +49,10 @@ export default defineConfig({
           // 'menu-dark-color': '#1F263E',
           // 'menu-dark-bg': '#1F263E',
         },
-        additionalData: '@import "./src/style/variable.less";',
+        additionalData: `
+                          @import "./src/style/variable.less";
+                          @import "./src/style/mixins.less";
+                        `,
         javascriptEnabled: true
       }
     }

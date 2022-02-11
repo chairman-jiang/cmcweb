@@ -66,11 +66,7 @@ import { useRouteStore } from '@/store/route';
 import { MenuFoldOutlined, MenuUnfoldOutlined, LogoutOutlined, DownOutlined,
   UndoOutlined, CloseOutlined, ColumnWidthOutlined, MinusOutlined
 } from '@ant-design/icons-vue';
-import { AccessTokenKey, cookieUserIdKey } from '@/helpers/enums';
-import { useRouter } from 'vue-router';
-import cookies from 'js-cookie';
 import { message } from 'ant-design-vue';
-const router = useRouter();
 const otherStateStore = useOtherStateStore();
 const userStore = useUserStore();
 const routeStore = useRouteStore();
@@ -96,9 +92,7 @@ const handleCloseOther = () => {};
 const handleCloseAll = () => {}
 
 const handleLogout = () => {
-  cookies.remove(AccessTokenKey);
-  cookies.remove(cookieUserIdKey);
-  router.replace('/login');
+  userStore.dispatchSignout();
 }
 </script>
 <style lang="less" scoped>

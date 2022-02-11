@@ -9,7 +9,7 @@ interface IContractBoardChartListItem {
 
 declare namespace API {
 
-  type findContractBoardModel = {
+  type findReportContractBoardModel = {
     areaContractNumList: IContractBoardChartListItem[]
     areaMoneyList: IContractBoardChartListItem[]
     areaOverdueList: IContractBoardChartListItem[]
@@ -46,5 +46,12 @@ declare namespace API {
     totalOverdueMoney: string
     totalReceiptMoney: string
     [index: string]: any
+  }
+
+  type findReportContractSellAnalyzeTotalVo = {
+    monthMoney: string
+    totalMoney: string
+    yearMoney: string
+    [index: string]: string
   }
 }

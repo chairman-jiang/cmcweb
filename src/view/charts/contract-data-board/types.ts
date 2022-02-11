@@ -1,4 +1,4 @@
-export interface ITopDataBoardItem {
+export interface ITopDataBoard {
   id: number
   title: string
   money: string | number

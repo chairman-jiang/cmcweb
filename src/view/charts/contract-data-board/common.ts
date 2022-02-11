@@ -2,12 +2,12 @@ import { ref } from 'vue';
 import * as echarts from 'echarts';
 import { pieColor, chartMax, monthList } from '../common';
 import { useRouter } from 'vue-router';
-import { ITopDataBoardItem, IChartItem, IAreaPieChartModel, IAreaLineChartModel, IMonthSaleLine, IMonthContractAmount, IFirstPartyNatureChartModel } from './types';
+import { ITopDataBoard, IChartItem, IAreaPieChartModel, IAreaLineChartModel, IMonthSaleLine, IMonthContractAmount, IFirstPartyNatureChartModel } from './types';
 // import * as echarts from 'echarts/core';
 // import { EcOption } from '@/plugin/sl-echarts';
 
 export const useDataBoardList = () => {
-  return ref<ITopDataBoardItem[]>([
+  return ref<ITopDataBoard[]>([
     {
       id: 1,
       title: '年度合同总金额（万元）：',

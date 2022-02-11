@@ -4,7 +4,7 @@
       <page-sub-title title="合同数据看板">
         <template #right>
           <div v-show="!printFlag">
-            <a-button @click="handlePrint('pdf')">导出PDF</a-button>
+            <a-button @click="handlePrint('pdf', '收入确认分析统计(财务)')">导出PDF</a-button>
             <a-button type="primary" @click="handlePrint('print')">打印</a-button>
           </div>
         </template>
@@ -70,21 +70,20 @@
   </div>
 </template>
 <script setup lang="ts">
-import { findContractBoard } from '@/api/cmc';
+import { findReportContractBoard } from '@/api/cmc';
 import { useDataBoardList, useChartList, useInitAreaPieChart, useInitAreaLineChart, useInitMonthSaleLineChart, useInitContractAmountLineChart, useInitImportantMessageBarChart } from './common';
 import { IAreaPieChartModel, IAreaLineChartModel, IMonthSaleLine, IMonthContractAmount, IFirstPartyNatureChartModel } from './types';
 import { monthList } from '../common';
 import { numberReg } from '@/utils/regexp';
 import { isArrayHasContents, sort } from '@/utils';
-import print, { exportPDF } from '@/helpers/print';
-import { ref, nextTick } from 'vue';
-import { message } from 'ant-design-vue';
+import { usePrint } from '../common';
 
 const dataBoardList = useDataBoardList();
 const chartList = useChartList();
-const printFlag = ref<boolean>(false);
 
-findContractBoard({ isContract: 1 }).then(res => {
+const { printFlag, handlePrint } = usePrint(Array(5).fill(0).map((_, index) => `.print-view${index + 1}`));
+
+findReportContractBoard({ isContract: 1 }).then(res => {
   // 顶部4条看板
   const convertValue = (val: string) : string => numberReg.test(val) ? Number(val).toLocaleString() : '';
   const now = new Date();
@@ -142,7 +141,7 @@ findContractBoard({ isContract: 1 }).then(res => {
     totalNumList: [],
     totalOverdueNumList: []
   };
-  monthList.forEach((item, index) => {
+  monthList.forEach((_, index) => {
     let find = isArrayHasContents(res.monthMoneyList) ? res.monthMoneyList.find(sub => {
       let month = sub.contractMonth.split('-')[1];
       let item = index + 1;
@@ -181,73 +180,20 @@ findContractBoard({ isContract: 1 }).then(res => {
   useInitImportantMessageBarChart(firstPartyNature);
 });
 
-/**
- * @param type
- * @description 打印事件
- */
-const handlePrint = (type: 'pdf' | 'print' = 'print') => {
-  message.loading({content: '正在加载...'});
-  printFlag.value = true;
-  const domList: HTMLElement[] = Array(5).fill(0).map((_, index) => {
-    return <HTMLElement>document.querySelector(`.print-view${index + 1}`);
-  });
-
-  nextTick(() => {
-    if (type === 'print') {
-      print(domList).finally(() => {
-        printFlag.value = false;
-        message.destroy();
-      });
-    } else {
-      exportPDF(domList, '收入确认分析统计(财务)').finally(() => {
-        printFlag.value = false;
-        message.destroy();
-      });
-    }
-  });
-}
-
 </script>
 <style lang="less" scoped>
 .contract-data-board {
   height: 100%;
   overflow-y: auto;
   .data-board-card {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    margin-top: 15px;
+    .data-board-card-flex();
     .board-card-item {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       width: calc(25% - 15px);
       height: 1.77rem;
-      border-radius: 5px;
-      padding: .2rem .17rem;
       cursor: pointer;
-      &+& {
-        margin-left: 15px;
-      }
-    }
-    .board-item-title {
-      position: relative;
-      font-size: .16rem;
-      font-family: PingFangSC-Regular,PingFang SC;
-      font-weight: 400;
-      color:rgba(255, 255, 255, .7);
-      padding-left: .10rem;
-      &::before {
-        content: "";
-        position: absolute;
-        height: .05rem;
-        width: .05rem;
-        border-radius: 50%;
-        background: white;
-        top: 50%;
-        transform: translateY(-50%);
-        left: 0px;
-      }
     }
     .board-item-money {
       position: relative;

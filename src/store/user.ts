@@ -1,6 +1,10 @@
 import { defineStore, acceptHMRUpdate } from 'pinia';
 import { findUserByUserId } from '@/api/umc';
 import { menuId } from '@/helpers';
+import cookies from 'js-cookie';
+import { AccessTokenKey, cookieUserIdKey } from '@/helpers/enums';
+import router from '@/route';
+import { Modal } from 'ant-design-vue';
 const state: API.UserInfo = {
   loginName: '',
   userId: '',
@@ -35,7 +39,17 @@ export const useUserStore = defineStore('user', {
         this.dispatchSyncUserInfo(res);
       })
     },
-    dispatchSignout() {}
+    dispatchSignout() {
+      Modal.confirm({
+        title: '确定要退出吗?',
+        content: '退出后将会跳转到登录页',
+        onOk: () => {
+          cookies.remove(AccessTokenKey);
+          cookies.remove(cookieUserIdKey);
+          router.replace('/login');
+        }
+      });
+    }
   }
 });
 
