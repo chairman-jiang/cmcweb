@@ -4,8 +4,8 @@
     <slot name="right"></slot>
   </div>
 </template>
-<script setup lang="ts">
-import { defineProps, defineExpose } from 'vue';
+<script setup lang="ts" name="page-sub-title">
+import { defineProps } from 'vue';
 defineProps({
   title: {
     type: String,
@@ -13,10 +13,6 @@ defineProps({
     required: true
   }
 });
-
-defineExpose({
-  displayName: 'page-sub-title'
-})
 </script>
 <style lang="less" scoped>
 .page-sub-title {

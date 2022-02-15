@@ -12,8 +12,7 @@
     <a-menu class="aside-inner" theme="dark" mode="inline" :inline-collapsed="menuExpandState" :open-keys="openKeys" @openChange="handleOpenChange">
       <a-sub-menu v-for="item in menuList" :key="item.permissionId" @click="handleMenuSubItemClick(item)">
         <template #icon>
-          <StepBackwardOutlined/>
-           <!-- <component is="step-backward-outlined"></component> -->
+           <component :is="item.var1"></component>
         </template>
         <template #title>{{item.permissionName}}</template>
         <a-menu-item v-for="child in item.children" :key="child.permissionId" @click.stop="handleMenuItemClick(child)">
@@ -109,7 +108,6 @@ const handleMenuItemClick = (item: IMenuItem) => {
       justify-content: space-between;
       cursor: pointer;
       overflow: hidden;
-      .logo-picture {}
       .head-system-name {
         color: white;
         margin-left: 10px;
@@ -131,6 +129,11 @@ const handleMenuItemClick = (item: IMenuItem) => {
   }
   .aside-inner {
     height: calc(100% - 80px);
+  }
+  :deep(.ant-menu) {
+    .anticon svg {
+      font-size: 18px;
+    }
   }
 }
 </style>

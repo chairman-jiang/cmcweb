@@ -18,6 +18,12 @@
           </div>
         </div>
       </div>
+      <div class="tab-view">
+        <sl-tabs>
+          <sl-tab-pane name="area">区域</sl-tab-pane>
+          <sl-tab-pane name="area">省份</sl-tab-pane>
+        </sl-tabs>
+      </div>
     </div>
   </div>
 </template>
@@ -25,10 +31,9 @@
 import { usePrint } from '../common';
 import { useDataBoardList } from './common';
 import { findReportContractSellAnalyzeTotalVo } from '@/api/cmc';
-import { getCurrentInstance } from 'vue';
 const { printFlag, handlePrint } = usePrint();
 const dataBoardList = useDataBoardList();
-console.log(getCurrentInstance(), 'pps')
+
 findReportContractSellAnalyzeTotalVo().then(res => {
   const keys = Reflect.ownKeys(res);
   dataBoardList.value.forEach(item => {
@@ -57,6 +62,16 @@ findReportContractSellAnalyzeTotalVo().then(res => {
           font-weight: 500;
           color: #fff;
         }
+      }
+    }
+  }
+  .tab-view {
+    margin-top: .15rem;
+    .tab-items {
+      display: flex;
+      .tab-item {
+        margin-right: .3rem;
+        font-size: 16px;
       }
     }
   }

@@ -2,6 +2,14 @@ import { App } from 'vue';
 import { getMyMenuPermissionByMenuId } from '@/api/umc';
 import { isArrayHasContents } from '@/utils';
 import { defineStore, acceptHMRUpdate } from 'pinia';
+import { 
+  AppstoreOutlined, AreaChartOutlined, PropertySafetyOutlined, UnorderedListOutlined
+} from '@ant-design/icons-vue';
+const icons = {
+  'appstore-outlined': AppstoreOutlined,
+  'area-chart-outlined': AreaChartOutlined,
+  'property-safety-outlined': PropertySafetyOutlined
+};
 interface IState {
   permissionList: API.MyMenuPermissionModel
   currentPermission: IPermissionItemModel
@@ -27,15 +35,20 @@ const state: IState = {
 }
 
 const menuIconLookup = (app: App) => {
+  app.component(UnorderedListOutlined.displayName, UnorderedListOutlined)
   const menuFilter = (list: API.MyMenuPermissionModel) : MenuList => list.reduce<MenuList>((prv, cur) => {
     if (cur.isShow) {
+      const icon = Reflect.get(icons, cur.var1);
+      if (icon) {
+        app.component(icon.displayName, icon);
+      }
       return prv.concat([{
         permissionId: cur.permissionId,
         permissionName: cur.permissionName,
         permissionUrl: cur.permissionUrl.replace(/\/home/g, ''),
-        var1: cur.var1,
+        var1: cur.var1 || 'unordered-list-outlined',
         children: isArrayHasContents(cur.children) ? menuFilter(cur.children) : []
-      }])
+      }]);
     } else {
       return prv;
     }

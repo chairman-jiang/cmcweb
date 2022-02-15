@@ -54,4 +54,9 @@ declare namespace API {
     yearMoney: string
     [index: string]: string
   }
+
+  type findReportContractDist = {
+    areaName: string
+    areaOrgId: string
+  }[]
 }

@@ -6,6 +6,7 @@ import {
 import Components from 'unplugin-vue-components/vite'
 import styleImport, { AndDesignVueResolve } from 'vite-plugin-style-import';
 import path from 'path';
+import vueSetupExtend from 'vite-plugin-vue-setup-extend';
 // import Pages from 'vite-plugin-pages';
 
 // https://vitejs.dev/config/
@@ -17,6 +18,7 @@ export default defineConfig({
   },
   plugins: [
     vue(),
+    vueSetupExtend(),
     styleImport({
       resolves: [AndDesignVueResolve()],
       libs: [{

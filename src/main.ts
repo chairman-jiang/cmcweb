@@ -10,12 +10,12 @@ import '@/style/index.less';
 import { base64Decode } from './utils';
 import cookies from 'js-cookie';
 import SlLoading from '@/plugin/sl-plugin';
-import PageSubTitle from '@/components/page-sub-title.vue';
+import plugin from '@/plugin';
 
 const loading = SlLoading();
 
 const app: VueInstance = createApp(App);
-app.use(router).use(createPinia()).use({install: (vue) => vue.component(PageSubTitle.displayName, PageSubTitle)}).mount('#app');
+app.use(router).use(createPinia()).use(plugin).mount('#app');
 const ignorePaths = ['/', '/login', '/refresh'];
 
 const permissionStore = usePermissionStore();

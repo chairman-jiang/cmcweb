@@ -14,3 +14,9 @@ export const findReportContractSellAnalyzeTotalVo = () => primaryRequest<API.fin
   data: {},
   errorMsgFlag: true
 });
+
+export const findReportContractDist = (data: Param.IFindReportContractDist) => primaryRequest<API.findReportContractDist>({
+  url: createCmcUrl('/report/findContractDist'),
+  method: 'GET',
+  data
+});
