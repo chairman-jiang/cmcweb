@@ -11,7 +11,6 @@ const components = [
 export default {
   install: (app: App) => {
     components.forEach(e => {
-      console.log(e, 'e===')
       app.component(e.name, e);
     });
   }

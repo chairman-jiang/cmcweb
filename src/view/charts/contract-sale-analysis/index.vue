@@ -19,20 +19,23 @@
         </div>
       </div>
       <div class="tab-view">
-        <sl-tabs>
+        <sl-tabs v-model="tabActive" :spacing="5" :out-line="true" :pane-active-mode="'font'">
           <sl-tab-pane name="area">区域</sl-tab-pane>
-          <sl-tab-pane name="area">省份</sl-tab-pane>
+          <sl-tab-pane name="province">省份</sl-tab-pane>
         </sl-tabs>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
+import { ref } from 'vue';
 import { usePrint } from '../common';
 import { useDataBoardList } from './common';
 import { findReportContractSellAnalyzeTotalVo } from '@/api/cmc';
 const { printFlag, handlePrint } = usePrint();
 const dataBoardList = useDataBoardList();
+
+const tabActive = ref<string>('area');
 
 findReportContractSellAnalyzeTotalVo().then(res => {
   const keys = Reflect.ownKeys(res);

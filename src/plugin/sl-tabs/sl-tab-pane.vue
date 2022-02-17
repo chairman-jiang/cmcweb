@@ -1,21 +1,50 @@
 <template>
   <div class="sl-tab-pane">
-    <slot></slot>
+    <span @click="handleTabPaneClick(name)">
+      <slot></slot>
+    </span>
   </div>
 </template>
 <script setup lang="ts" name="sl-tab-pane">
-import { defineProps, defineExpose } from 'vue';
-const props = defineProps<{
+import { defineProps } from 'vue';
+defineProps<{
   name: string
-  handleTabPaneClick: () => void
+  handleTabPaneClick: (val: string) => void
 }>();
-defineExpose({
-  displayName: 'sl-tab-pane'
-})
 </script>
 <style lang="less" scoped>
+.sl-tab-pane-active.sl-tab-pane__active-color {
+  span {
+    color: #3853fd;
+    font-weight: bold;
+  }
+}
+.sl-tab-pane-active.sl-tab-pane__active-font {
+  span {
+    font-weight: bold;
+    font-size: 18px;
+  }
+}
+.sl-tab-pane-active.sl-tab-pane__active-all {
+  span {
+    color: #3853fd;
+    font-size: 18px;
+    font-weight: bold;
+  }
+}
 .sl-tab-pane {
-  font-size: 16px;
-  margin-right: .15rem;
+  height: 40px;
+  padding: 0px 20px;
+  line-height: 30px;
+  span {
+    font-size: 16px;
+    cursor: pointer;
+  }
+}
+.sl-tab-pane:first-child {
+  padding-left: 0px !important;
+}
+.sl-tab-pane:last-child {
+  padding-right: 0px !important;
 }
 </style>
