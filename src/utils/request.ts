@@ -46,8 +46,8 @@ export async function primaryRequest<T = any>(config: RequestConfig) : Promise<T
   }
   try {
     const res: AxiosResponse<ResponseData<T> | any> = await instance(c);
-    promiseResult = res;
     const result: ResponseData<T> = isObject(res.data) ? res.data : { code: res.status, msg: res.statusText, data: res.data }
+    promiseResult = result;
     const isSucceed: boolean = result.code === 200;
     promiseStatus = isSucceed ? PromiseStatus.FULFILLED : PromiseStatus.REJECTED;
     !result.msg && (result.msg = isSucceed ? '成功' : '失败');
@@ -59,7 +59,8 @@ export async function primaryRequest<T = any>(config: RequestConfig) : Promise<T
   } finally {
     const isFulfilled = promiseStatus === PromiseStatus.FULFILLED;
     const defaultMsg = isFulfilled ? '成功' : '失败';
-    const msg = isFulfilled ? (promiseResult as AxiosResponse).data?.msg : (promiseResult?.response.data.msg || (promiseResult as AxiosError)?.message);
+    const errorMsg = Reflect.has(promiseResult, 'response') ? promiseResult.response?.data.msg || (promiseResult as AxiosError)?.message : promiseResult.msg;
+    const msg = isFulfilled ? (promiseResult as AxiosResponse).data?.msg : errorMsg;
     successMsgFlag && isFulfilled && message.success(msg || defaultMsg);
     errorMsgFlag && !isFulfilled && message.error(msg || defaultMsg);
   }
