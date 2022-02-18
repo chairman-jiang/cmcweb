@@ -29,7 +29,7 @@ export async function primaryRequest<T = any>(config: RequestConfig) : Promise<T
   const { url, method, data, contentType, successMsgFlag, errorMsgFlag } = config;
   const isGetMethod = 'get' === method?.toLocaleLowerCase();
   let promiseStatus = PromiseStatus.PENDING;
-  let promiseResult: AxiosResponse | any
+  let promiseResult: ResponseData<any> | any
   // let executorResolve;
   const c: AxiosRequestConfig = {
     url,
@@ -47,10 +47,10 @@ export async function primaryRequest<T = any>(config: RequestConfig) : Promise<T
   try {
     const res: AxiosResponse<ResponseData<T> | any> = await instance(c);
     const result: ResponseData<T> = isObject(res.data) ? res.data : { code: res.status, msg: res.statusText, data: res.data }
-    promiseResult = result;
     const isSucceed: boolean = result.code === 200;
     promiseStatus = isSucceed ? PromiseStatus.FULFILLED : PromiseStatus.REJECTED;
     !result.msg && (result.msg = isSucceed ? '成功' : '失败');
+    promiseResult = result;
     return isSucceed ? result.data : Promise.reject(new Error(result.msg));
   } catch (error: any) {
     promiseStatus = PromiseStatus.REJECTED;
@@ -59,8 +59,7 @@ export async function primaryRequest<T = any>(config: RequestConfig) : Promise<T
   } finally {
     const isFulfilled = promiseStatus === PromiseStatus.FULFILLED;
     const defaultMsg = isFulfilled ? '成功' : '失败';
-    const errorMsg = Reflect.has(promiseResult, 'response') ? promiseResult.response?.data.msg || (promiseResult as AxiosError)?.message : promiseResult.msg;
-    const msg = isFulfilled ? (promiseResult as AxiosResponse).data?.msg : errorMsg;
+    const msg = isFulfilled || Reflect.has(promiseResult, 'code') ? promiseResult.msg : (promiseResult?.response.data.msg || (promiseResult as AxiosError)?.message);
     successMsgFlag && isFulfilled && message.success(msg || defaultMsg);
     errorMsgFlag && !isFulfilled && message.error(msg || defaultMsg);
   }
