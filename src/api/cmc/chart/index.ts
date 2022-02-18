@@ -20,3 +20,5 @@ export const findReportContractDist = (data: Param.IFindReportContractDist) => p
   method: 'GET',
   data
 });
+
+// export const findReportContractDist = (data) => 

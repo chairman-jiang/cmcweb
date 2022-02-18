@@ -5,7 +5,8 @@ import { message } from 'ant-design-vue';
 import qs from 'qs';
 import cookies from 'js-cookie';
 const instance: AxiosInstance = axios.create({
-  timeout: 18e4 // 3分钟
+  timeout: 18e4, // 3分钟
+  // validateStatus: (status) => status < 503
 });
 
 instance.interceptors.request.use((config: AxiosRequestConfig) => {
@@ -17,8 +18,10 @@ instance.interceptors.request.use((config: AxiosRequestConfig) => {
 
 instance.interceptors.response.use((response: AxiosResponse) => {
   // do something if like 401 error catch
+  console.log(response, 'interceptors-response')
   return response;
 }, (error: AxiosError) => {
+  console.log(error, 'interceptors-error');
   return Promise.reject(error);
 });
 
@@ -56,7 +59,7 @@ export async function primaryRequest<T = any>(config: RequestConfig) : Promise<T
   } finally {
     const isFulfilled = promiseStatus === PromiseStatus.FULFILLED;
     const defaultMsg = isFulfilled ? '成功' : '失败';
-    const msg = isFulfilled ? (promiseResult as AxiosResponse).data?.msg : (promiseResult as AxiosError)?.message;
+    const msg = isFulfilled ? (promiseResult as AxiosResponse).data?.msg : (promiseResult?.response.data.msg || (promiseResult as AxiosError)?.message);
     successMsgFlag && isFulfilled && message.success(msg || defaultMsg);
     errorMsgFlag && !isFulfilled && message.error(msg || defaultMsg);
   }

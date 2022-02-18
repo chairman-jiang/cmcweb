@@ -103,7 +103,6 @@ export const usePermissionStore = defineStore('permission', {
     },
     dispatchCurrentPermission(url: string) {
       const node = accordingToUrlFindPermission(url, this.permissionList);
-      console.log(node, 'node');
       if (node) {
         this.currentPermission = node;
       }

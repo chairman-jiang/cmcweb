@@ -23,6 +23,9 @@
           <sl-tab-pane name="area">区域</sl-tab-pane>
           <sl-tab-pane name="province">省份</sl-tab-pane>
         </sl-tabs>
+        <div class="tab-select-view">
+          <!-- <a-select v-model:value=""></a-select> -->
+        </div>
       </div>
     </div>
   </div>

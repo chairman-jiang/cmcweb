@@ -28,7 +28,6 @@ permissionStore.dispatchPermissionList(app, (err) => {
   const id = cookies.get('id');
   id && userStore.dispatchUserInfo(base64Decode(id));
   if (!ignorePaths.includes(pathName)) {
-    console.log(permissionStore.permissionList, 'list');
     permissionStore.dispatchCurrentPermission(pathName);
     routeStore.dispatchRoutesForAdd({
       routeName: permissionStore.currentPermission.permissionName,

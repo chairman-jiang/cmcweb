@@ -72,7 +72,6 @@ const handleMenuSubItemClick = (item: IMenuItem) => {
   }
 }
 const handleMenuItemClick = (item: IMenuItem) => {
-  console.log(item, '--');
   router.push(item.permissionUrl);
   routeStore.dispatchRoutesForAdd({
     routeName: item.permissionName,
