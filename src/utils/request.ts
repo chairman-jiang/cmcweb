@@ -18,10 +18,8 @@ instance.interceptors.request.use((config: AxiosRequestConfig) => {
 
 instance.interceptors.response.use((response: AxiosResponse) => {
   // do something if like 401 error catch
-  console.log(response, 'interceptors-response')
   return response;
 }, (error: AxiosError) => {
-  console.log(error, 'interceptors-error');
   return Promise.reject(error);
 });
 

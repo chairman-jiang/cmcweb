@@ -19,12 +19,28 @@
         </div>
       </div>
       <div class="tab-view">
-        <sl-tabs v-model="tabActive" :spacing="5" :out-line="true" :pane-active-mode="'font'">
+        <sl-tabs v-model="tabActive" :out-line="true" :pane-active-mode="'font'">
           <sl-tab-pane name="area">区域</sl-tab-pane>
           <sl-tab-pane name="province">省份</sl-tab-pane>
         </sl-tabs>
         <div class="tab-select-view">
-          <!-- <a-select v-model:value=""></a-select> -->
+          <a-select v-model:value="contractDistValue" allowClear placeholder="请输入" style="width: 140px;">
+            <a-select-option v-for="item in contractDistList" :key="item.areaOrgId" :value="item.areaOrgId">{{item.areaName}}</a-select-option>
+          </a-select>
+        </div>
+      </div>
+      <div class="contract-money-chart">
+        <div class="contract-money-chart__header">
+          <div class="header-title__left">
+            <span class="title-text">合同金额分布情况</span>
+            <a-radio-group v-model:value="contractMoneyRadio">
+              <a-radio value="year">按年度展示</a-radio>
+              <a-radio value="month">按月度展示</a-radio>
+            </a-radio-group>
+            <a-date-picker v-model:value="yearPickerValue" valueFormat="YY" picker="year" v-if="contractMoneyRadio === 'year'" />
+            <a-date-picker v-model:value="monthPickerValue" valueFormat="YY-MM" picker="month" v-else />
+          </div>
+          <div class="header-tool__right"></div>
         </div>
       </div>
     </div>
@@ -34,11 +50,17 @@
 import { ref } from 'vue';
 import { usePrint } from '../common';
 import { useDataBoardList } from './common';
-import { findReportContractSellAnalyzeTotalVo } from '@/api/cmc';
+import { findReportContractSellAnalyzeTotalVo, findReportContractDist } from '@/api/cmc';
 const { printFlag, handlePrint } = usePrint();
 const dataBoardList = useDataBoardList();
-
+const contractMoneyRadio = ref<'year' | 'month'>('year');
+const date = new Date();
+const yearPickerValue = ref<string>(date.getFullYear().toString());
+const monthPickerValue = ref<string>(`${date.getFullYear()}-${date.getMonth() + 1}`);
+const contractDistValue = ref<string>();
+const contractDistList = ref<API.findReportContractDist>();
 const tabActive = ref<string>('area');
+
 
 findReportContractSellAnalyzeTotalVo().then(res => {
   const keys = Reflect.ownKeys(res);
@@ -46,6 +68,13 @@ findReportContractSellAnalyzeTotalVo().then(res => {
     const find = keys.find(key => item.key === key);
     find && Reflect.set(item, 'value', `¥${res[<string>find]}元`);
   });
+});
+
+
+
+findReportContractDist({ date: contractMoneyRadio.value === 'year' ? yearPickerValue.value : monthPickerValue.value }).then(res => {
+  console.log(res, 'res')
+  contractDistList.value = [{ areaName: '全部', areaOrgId: 'all' }, ...res];
 });
 
 </script>
@@ -72,12 +101,26 @@ findReportContractSellAnalyzeTotalVo().then(res => {
     }
   }
   .tab-view {
+    position: relative;
     margin-top: .15rem;
-    .tab-items {
+    .tab-select-view {
+      position: absolute;
+      top: 0px;
+      // transform: translateY(-50%);
+      left: 160px;
+    }
+  }
+
+  .contract-money-chart {
+    margin: 0.25rem 0px;
+    &__header {
       display: flex;
-      .tab-item {
-        margin-right: .3rem;
-        font-size: 16px;
+      justify-content: space-between;
+      align-items: center;
+      .title-text {
+        font-size: .18rem;
+        font-weight: bold;
+        margin-right: 0.2rem;
       }
     }
   }

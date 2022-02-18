@@ -36,7 +36,6 @@ export const useUserStore = defineStore('user', {
     },
     dispatchUserInfo(userId: string) {
       findUserByUserId({menuId: menuId, userId}).then(res => {
-        console.log(res, 'res');
         this.dispatchSyncUserInfo(res);
       })
     },

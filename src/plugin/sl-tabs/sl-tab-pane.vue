@@ -34,7 +34,7 @@ defineProps<{
 }
 .sl-tab-pane {
   height: 40px;
-  padding: 0px 20px;
+  margin: 0px 20px;
   line-height: 30px;
   span {
     font-size: 16px;
@@ -42,9 +42,9 @@ defineProps<{
   }
 }
 .sl-tab-pane:first-child {
-  padding-left: 0px !important;
+  margin-left: 0px !important;
 }
 .sl-tab-pane:last-child {
-  padding-right: 0px !important;
+  margin-right: 0px !important;
 }
 </style>

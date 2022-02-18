@@ -13,6 +13,7 @@ specifiers:
   await-to-js: ^3.0.0
   axios: ^0.24.0
   crypto-js: ^4.1.1
+  dayjs: ^1.10.7
   echarts: ^5.2.2
   html2canvas: ^1.4.1
   husky: ^7.0.4
@@ -35,6 +36,7 @@ dependencies:
   await-to-js: 3.0.0
   axios: 0.24.0
   crypto-js: 4.1.1
+  dayjs: 1.10.7
   echarts: 5.2.2
   html2canvas: 1.4.1
   js-cookie: 3.0.1
@@ -737,7 +739,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.16.7
       '@types/raf': 3.4.0
-      core-js: 3.20.2
+      core-js: 3.21.1
       raf: 3.4.1
       regenerator-runtime: 0.13.9
       rgbcolor: 1.0.1
@@ -896,6 +898,12 @@ packages:
     requiresBuild: true
     dev: false
 
+  /core-js/3.21.1:
+    resolution: {integrity: sha512-FRq5b/VMrWlrmCzwRrpDYNxyHP9BcAZC+xHJaqTgIE5091ZV1NTmyh0sGOg5XqpnHvR0svdy0sv1gWA1zmhxig==}
+    requiresBuild: true
+    dev: false
+    optional: true
+
   /cosmiconfig-typescript-loader/1.0.3_faf01e1d5a40372a98081522dcafc186:
     resolution: {integrity: sha512-ARo21VjxdacJUcHxgVMEYNIoVPYiuKOEwWBIYej4M22+pEbe3LzKgmht2UPM+0u7/T/KnZf2r/5IzHv2Nwz+/w==}
     engines: {node: '>=12', npm: '>=6'}
@@ -955,6 +963,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /dayjs/1.10.7:
+    resolution: {integrity: sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig==}
+    dev: false
+
   /debug/3.2.7:
     resolution: {integrity: sha512-CFjzYYAi4ThfiQvizrFQevTTXHtnCqWfe7x1AhgEscTz6ZbLbfoLRLPugTQyBth6f8ZERVUSyWHFD/7Wu4t1XQ==}
     dependencies:
@@ -1000,8 +1012,8 @@ packages:
     resolution: {integrity: sha512-bvVTQe1lfaUr1oFzZX80ce9KLDlZ3iU+XGNE/bz9HnGdklTieqsbmsLHe+rT2XWqopvL0PckkYqN7ksmm5pe3w==}
     dev: false
 
-  /dompurify/2.3.5:
-    resolution: {integrity: sha512-kD+f8qEaa42+mjdOpKeztu9Mfx5bv9gVLO6K9jRx4uGvh6Wv06Srn4jr1wPNY2OOUGGSKHNFN+A8MA3v0E0QAQ==}
+  /dompurify/2.3.6:
+    resolution: {integrity: sha512-OFP2u/3T1R5CEgWCEONuJ1a5+MFKnOYpkywpUSxv/dj1LeBT1erK+JwM7zK0ROy2BRhqVCf0LRw/kHqKuMkVGg==}
     requiresBuild: true
     dev: false
     optional: true
@@ -1582,8 +1594,8 @@ packages:
       fflate: 0.4.8
     optionalDependencies:
       canvg: 3.0.10
-      core-js: 3.20.2
-      dompurify: 2.3.5
+      core-js: 3.21.1
+      dompurify: 2.3.6
       html2canvas: 1.4.1
     dev: false
 

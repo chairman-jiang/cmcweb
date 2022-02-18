@@ -6,7 +6,10 @@ export default defineComponent({
   name: 'sl-tabs',
   props: {
     modelValue: String,
-    spacing: Number,
+    spacing: {
+      type: Number,
+      default: () => 20
+    },
     outLine: {
       type: Boolean,
       default: () => false
@@ -86,7 +89,7 @@ export default defineComponent({
           // https://forum.vuejs.org/t/how-to-avoid-non-function-value-encountered-for-default-slot-warning/107039
           return h(SlTabPane, {
               class: { 'sl-tab-pane-active': this.modelValue === t.props?.name, [paneActiveClassName]: true },
-              style: { padding: this.spacing ? `0px ${this.spacing}px` : '0px 20px' },
+              style: { margin: `0px ${this.spacing}px` },
               name: t.props?.name,
               handleTabPaneClick 
             }, 
