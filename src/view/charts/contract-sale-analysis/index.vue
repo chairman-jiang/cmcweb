@@ -40,27 +40,48 @@
             <a-date-picker v-model:value="yearPickerValue" valueFormat="YY" picker="year" v-if="contractMoneyRadio === 'year'" />
             <a-date-picker v-model:value="monthPickerValue" valueFormat="YY-MM" picker="month" v-else />
           </div>
-          <div class="header-tool__right"></div>
+          <div class="header-tool__right">
+            <a-button>导出Excel</a-button>
+            <a-button>导出</a-button>
+            <a-button type="primary">打印</a-button>
+          </div>
+        </div>
+        <div class="contract-money-chart__content">
+          <div class="content-chart" id="saleContractMoneyPie"></div>
+          <div class="content-table">
+            <!-- <a-table :dataSource="saleContractMoneyList"></a-table> -->
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { usePrint } from '../common';
 import { useDataBoardList } from './common';
 import { findReportContractSellAnalyzeTotalVo, findReportContractDist } from '@/api/cmc';
+import { ISaleContractMoneyPieOption } from './types';
+import { numberToLocal } from '@/utils';
+import { useInitContractMoneyPieChart } from './common';
+
 const { printFlag, handlePrint } = usePrint();
 const dataBoardList = useDataBoardList();
 const contractMoneyRadio = ref<'year' | 'month'>('year');
 const date = new Date();
-const yearPickerValue = ref<string>(date.getFullYear().toString());
-const monthPickerValue = ref<string>(`${date.getFullYear()}-${date.getMonth() + 1}`);
+const year = date.getFullYear();
+const month = date.getMonth() + 1;
+const yearPickerValue = ref<string>(year.toString());
+const monthPickerValue = ref<string>(`${year}-${month < 10 ? `0${month}` : month}`);
 const contractDistValue = ref<string>();
 const contractDistList = ref<API.findReportContractDist>();
+const saleContractMoneyList = computed<API.findReportContractDist>(() => contractDistList.value?.slice(1) || []);
 const tabActive = ref<string>('area');
 
+/**
+ * @description 合同金额分布pie点击事件
+ */
+const handleContractMoneyPieClick = () => {}
 
 findReportContractSellAnalyzeTotalVo().then(res => {
   const keys = Reflect.ownKeys(res);
@@ -70,16 +91,32 @@ findReportContractSellAnalyzeTotalVo().then(res => {
   });
 });
 
-
-
 findReportContractDist({ date: contractMoneyRadio.value === 'year' ? yearPickerValue.value : monthPickerValue.value }).then(res => {
-  console.log(res, 'res')
-  contractDistList.value = [{ areaName: '全部', areaOrgId: 'all' }, ...res];
+  contractDistList.value = [{ areaName: '全部', areaOrgId: 'all', money: 0 }, ...res];
+  const saleContractMoneyPieOption: ISaleContractMoneyPieOption = {
+    list: [],
+    legend: [],
+    handleContractMoneyPieClick
+  };
+  res.forEach(t => {
+    Reflect.set(t, 'moneyToLocal', numberToLocal(t.money));
+    const name = t.areaName || Math.random() * 100 + 'io';
+    saleContractMoneyPieOption.list.push({
+      name,
+      value: t.money
+    });
+    saleContractMoneyPieOption.legend.push(name);
+  });
+  useInitContractMoneyPieChart(saleContractMoneyPieOption);
 });
+
+
 
 </script>
 <style lang="less" scoped>
 .contract-sale-analysis {
+  height: 100%;
+  overflow-y: auto;
   .data-board-card {
     .data-board-card-flex();
     .board-card-item {
@@ -112,15 +149,30 @@ findReportContractDist({ date: contractMoneyRadio.value === 'year' ? yearPickerV
   }
 
   .contract-money-chart {
-    margin: 0.25rem 0px;
     &__header {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin: 0.25rem 0px;
       .title-text {
         font-size: .18rem;
         font-weight: bold;
         margin-right: 0.2rem;
+      }
+    }
+    &__content {
+      display: flex;
+      .content-chart {
+        height: 575px;
+        width: 5.02rem;
+        background: white;
+        border-radius: .04rem;
+      }
+      .content-table {
+        width: calc(100% - 5.3rem);
+        margin-left: 0.28rem;
+        border-radius: 0.04rem;
+        overflow: hidden;
       }
     }
   }

@@ -64,3 +64,28 @@ export const sort = (list: [], key: string, sortType: 'asc' | 'desc' = 'asc') : 
     }
   })
 };
+
+/**
+ * @param {String | Number} val 
+ * @param {String} unit 
+ * @description 数字添加千位分隔符, 保留小数
+ */
+ export const numberToLocal = (val: any, unit = '元') => {
+  let strVal = val ? String(val) : '';
+  let isHasPoint = strVal.includes('.');
+  let newVal = val && Number(val) !== 0 ? Number(val).toLocaleString() : '0';
+
+  if (isHasPoint) {
+    let a = newVal.split('.')[1];
+    if (a && a.length !== 2) {
+      newVal += '0';
+    }
+    if (strVal.includes('.00')) {
+      newVal += '.00'
+    }
+  } else {
+    newVal += '.00';
+  }
+
+  return newVal ? '¥' + newVal + unit : '0.00元'
+}
