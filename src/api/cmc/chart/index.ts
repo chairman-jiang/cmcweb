@@ -20,3 +20,15 @@ export const findReportContractDist = (data: Param.IFindReportContractDist) => p
   method: 'GET',
   data
 });
+
+export const findReportContractDept = (data: Param.IFindReportContractDept) => primaryRequest<API.findReportContractDept>({
+  url: createCmcUrl('/report/findContractDept'),
+  method: 'GET',
+  data
+});
+
+export const findReportAreaDistByAreaOrgId = (data: Param.IFindReportAreaDistByAreaOrgId) => primaryRequest<API.findReportAreaDistByAreaOrgId>({
+  url: createCmcUrl('/report/findAreaDistByAreaOrgId'),
+  method: 'GET',
+  data
+});

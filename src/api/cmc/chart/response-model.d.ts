@@ -58,7 +58,31 @@ declare namespace API {
   type findReportContractDist = {
     areaName: string
     areaOrgId: string
-    money: number
+    money: string
+    percent: number
+    percentStr: string
     moneyToLocal?: string
+    [index: string]: any
+  }[]
+
+  type findReportContractDept = {
+    areaName: string
+    areaOrgId: string
+    money: string
+    percent: number
+    percentStr: string
+    proviceName: string
+    proviceOrgId: string
+    moneyToLocal?: string
+    [index: string]: any
+  }[]
+
+  type findReportAreaDistByAreaOrgId = {
+    percentStr: string
+    proviceName: string
+    money: string
+    percent: number
+    moneyToLocal?: string
+    [index: string]: any
   }[]
 }

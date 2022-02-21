@@ -23,7 +23,7 @@ export default defineComponent({
       default: () => 'color'
     }
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'change'],
   components: {
     LeftOutlined,
     RightOutlined
@@ -50,6 +50,7 @@ export default defineComponent({
     const handleTabPaneClick = (val: string) => {
       if (props.modelValue !== val) {
         ctx.emit('update:modelValue', val);
+        ctx.emit('change', val);
         nextTick(() => {
           tabBarMove();
         })

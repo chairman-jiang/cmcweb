@@ -19,12 +19,12 @@
         </div>
       </div>
       <div class="tab-view">
-        <sl-tabs v-model="tabActive" :out-line="true" :pane-active-mode="'font'">
+        <sl-tabs v-model="tabActive" :out-line="true" :pane-active-mode="'font'" @change="handleTabsChange">
           <sl-tab-pane name="area">区域</sl-tab-pane>
-          <sl-tab-pane name="province">省份</sl-tab-pane>
+          <sl-tab-pane name="department">部门</sl-tab-pane>
         </sl-tabs>
-        <div class="tab-select-view">
-          <a-select v-model:value="contractDistValue" allowClear placeholder="请输入" style="width: 140px;">
+        <div class="tab-select-view" v-show="tabActive === 'area'">
+          <a-select v-model:value="areaId" allowClear placeholder="请输入" style="width: 140px;" @change="handleAreaSelectChange">
             <a-select-option v-for="item in contractDistList" :key="item.areaOrgId" :value="item.areaOrgId">{{item.areaName}}</a-select-option>
           </a-select>
         </div>
@@ -49,7 +49,15 @@
         <div class="contract-money-chart__content">
           <div class="content-chart" id="saleContractMoneyPie"></div>
           <div class="content-table">
-            <!-- <a-table :dataSource="saleContractMoneyList"></a-table> -->
+            <a-table :data-source="contractMoneyTableData" :pagination="false" size="middle" :columns="contractMoneyTableColumn">
+              <template #summary>
+                <a-table-summary-row>
+                  <a-table-summary-cell align="center">{{tabActive === 'area' ? `${!areaId || areaId === 'all' ? '区域' : '省'}名称` : '部门名称'}}</a-table-summary-cell>
+                  <a-table-summary-cell align="center">{{totals.moneyTotal}}</a-table-summary-cell>
+                  <a-table-summary-cell align="center">{{totals.percentageTotal}}</a-table-summary-cell>
+                </a-table-summary-row>
+              </template>
+            </a-table>
           </div>
         </div>
       </div>
@@ -57,32 +65,65 @@
   </div>
 </template>
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { usePrint } from '../common';
 import { useDataBoardList } from './common';
-import { findReportContractSellAnalyzeTotalVo, findReportContractDist } from '@/api/cmc';
-import { ISaleContractMoneyPieOption } from './types';
+import { findReportContractSellAnalyzeTotalVo, findReportContractDist, findReportContractDept, findReportAreaDistByAreaOrgId } from '@/api/cmc';
+import { ISaleContractMoneyPieOption, contractMoneyTableDataType, initChartDataLabelType } from './types';
 import { numberToLocal } from '@/utils';
-import { useInitContractMoneyPieChart } from './common';
+import { useInitContractMoneyPieChart, cmTableColumn } from './common';
 
 const { printFlag, handlePrint } = usePrint();
 const dataBoardList = useDataBoardList();
+const tabActive = ref<'area' | 'department'>('area');
 const contractMoneyRadio = ref<'year' | 'month'>('year');
 const date = new Date();
 const year = date.getFullYear();
 const month = date.getMonth() + 1;
 const yearPickerValue = ref<string>(year.toString());
 const monthPickerValue = ref<string>(`${year}-${month < 10 ? `0${month}` : month}`);
-const contractDistValue = ref<string>();
+const areaId = ref<string | null>();
 const contractDistList = ref<API.findReportContractDist>();
-const saleContractMoneyList = computed<API.findReportContractDist>(() => contractDistList.value?.slice(1) || []);
-const tabActive = ref<string>('area');
+const contractMoneyTableData = ref<contractMoneyTableDataType>();
+// 表格列
+const contractMoneyTableColumn = computed(() => {
+  if (tabActive.value === 'area') {
+    return !areaId.value || areaId.value === 'all' ?
+    [{ title: '区域名称', dataIndex: 'areaName', align: 'center' }, ...cmTableColumn] :
+    [{ title: '省名称', dataIndex: 'proviceName', align: 'center' }, ...cmTableColumn];
+  } else {
+    return [{ title: '部门名称', dataIndex: 'departmentName', align: 'center' }, ...cmTableColumn];
+  }
+});
+
+// footer-total
+const totals = computed(() => {
+  let moneyTotal: number = 0
+  let percentageTotal: number = 0;
+
+  contractMoneyTableData.value?.forEach(t => {
+    moneyTotal += Number(t.money);
+    percentageTotal += Number(t.percent)
+  });
+
+  return {
+    moneyTotal: numberToLocal(moneyTotal),
+    percentageTotal: Math.floor(percentageTotal * 100) + '%'
+  }
+});
 
 /**
- * @description 合同金额分布pie点击事件
+ * @description tabs的change事件
  */
-const handleContractMoneyPieClick = () => {}
+const handleTabsChange = () => tabActive.value === 'area' ? handleAreaSelectChange() : getReportContractDept();
 
+/**
+ * @description 区域select下拉change事件
+ */
+const handleAreaSelectChange = () => !areaId.value || areaId.value === 'all' ? getReportContractDist() : getReportAreaDistByAreaOrgId();
+/**
+ * @description 获取头部3卡片数据
+*/
 findReportContractSellAnalyzeTotalVo().then(res => {
   const keys = Reflect.ownKeys(res);
   dataBoardList.value.forEach(item => {
@@ -91,16 +132,57 @@ findReportContractSellAnalyzeTotalVo().then(res => {
   });
 });
 
-findReportContractDist({ date: contractMoneyRadio.value === 'year' ? yearPickerValue.value : monthPickerValue.value }).then(res => {
-  contractDistList.value = [{ areaName: '全部', areaOrgId: 'all', money: 0 }, ...res];
+/**
+  * @description 获取销售合同金额分布-区域
+  */
+const getReportContractDist = () => {
+  findReportContractDist({ date: contractMoneyRadio.value === 'year' ? yearPickerValue.value : monthPickerValue.value }).then(res => {
+    contractDistList.value = [{ areaName: '全部', areaOrgId: 'all', money: '', percent: 0, percentStr: '' }, ...res];
+    initContractMoneyChartData(res, 'areaName');
+  }).catch(() => contractMoneyTableData.value = []);
+}
+
+/**
+ * @description 获取销售合同金额分布-省份
+ */
+const getReportAreaDistByAreaOrgId = () => {
+  findReportAreaDistByAreaOrgId({ 
+    date: contractMoneyRadio.value === 'year' ? yearPickerValue.value : monthPickerValue.value,
+    areaOrgId: <string>areaId.value
+  }).then(res => {
+    initContractMoneyChartData(res, 'proviceName');
+  }).catch(() => contractMoneyTableData.value = []);
+};
+
+/**
+ * @description 部门
+ */
+const getReportContractDept = () => {
+  findReportContractDept({date: contractMoneyRadio.value === 'year' ? yearPickerValue.value : monthPickerValue.value}).then(res => {
+    initContractMoneyChartData(res, 'departmentName');
+  }).catch(() => contractMoneyTableData.value = []);
+}
+
+/**
+ * @description 合同金额分布pie点击事件
+ */
+const handleContractMoneyPieClick = () => {}
+
+/**
+ * @description 图表数据初始化
+*/
+const initContractMoneyChartData = (list: contractMoneyTableDataType, label: initChartDataLabelType) => {
   const saleContractMoneyPieOption: ISaleContractMoneyPieOption = {
     list: [],
     legend: [],
     handleContractMoneyPieClick
   };
-  res.forEach(t => {
+  contractMoneyTableData.value = list;
+  let _moneyTotal: number = 0;
+  let _percentageTotal: number = 0;
+  list.forEach(t => {
     Reflect.set(t, 'moneyToLocal', numberToLocal(t.money));
-    const name = t.areaName || Math.random() * 100 + 'io';
+    const name = t[label] || Math.random() * 100 + 'io';
     saleContractMoneyPieOption.list.push({
       name,
       value: t.money
@@ -108,8 +190,13 @@ findReportContractDist({ date: contractMoneyRadio.value === 'year' ? yearPickerV
     saleContractMoneyPieOption.legend.push(name);
   });
   useInitContractMoneyPieChart(saleContractMoneyPieOption);
-});
+}
 
+
+
+onMounted(() => {
+  getReportContractDist();
+});
 
 
 </script>

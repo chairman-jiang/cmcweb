@@ -36,7 +36,12 @@ export const useInitContractMoneyPieChart = (data: ISaleContractMoneyPieOption) 
     },
     tooltip: {
       trigger: 'item',
-      formatter: '{a} <br/>{b} : {c} ({d}%)'
+      formatter: '{a} <br/>{b} : {c} ({d}%)',
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      borderColor: 'rgba(0,0,0,0)',
+      textStyle: {
+        color: '#fff'
+      }
     },
     legend: {
       show: false,
@@ -57,21 +62,13 @@ export const useInitContractMoneyPieChart = (data: ISaleContractMoneyPieOption) 
         radius: '50%',
         center: ['50%', '50%'],
         data: data.list,
-        label: {
-          normal: {
-            show: true,
-            position: '',
-            formatter: '{b}\n{d}%',
-            color: '#222222'
-          }
-        },
         labelLine: {
           lineStyle: {
             color: '#A4B1BD'
-          }
+          },
         },
-        itemStyle: {
-          emphasis: {
+        emphasis: {
+          itemStyle: {
             shadowBlur: 10,
             shadowOffsetX: 0,
             shadowColor: 'rgba(0, 0, 0, 0.5)'
@@ -83,3 +80,24 @@ export const useInitContractMoneyPieChart = (data: ISaleContractMoneyPieOption) 
   chart.setOption(option);
   chart.on('click', data.handleContractMoneyPieClick.bind(this, data));
 };
+
+export const cmTableColumn = [
+  {
+    title: '合同金额',
+    dataIndex: 'moneyToLocal',
+    align: 'center'
+  },
+  {
+    title: '所占比例',
+    dataIndex: 'percentStr',
+    align: 'center'
+  }
+];
+
+export const areaTypeCMTableColumnFooter = [
+
+];
+
+export const departmentTypeCMTableColumnFooter = [
+
+]

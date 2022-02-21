@@ -147,7 +147,12 @@ export const useInitAreaPieChart = (data: IAreaPieChartModel) => {
     },
     tooltip: {
       trigger: 'item',
-      formatter: "{a} <br/>{b} : {c} ({d}%)"
+      formatter: '{a} <br/>{b} : {c} ({d}%)',
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      borderColor: 'rgba(0,0,0,0)',
+      textStyle: {
+        color: '#fff'
+      }
     },
     legend: {
       show: false,
@@ -168,21 +173,13 @@ export const useInitAreaPieChart = (data: IAreaPieChartModel) => {
         radius: data.isCircle ? ['35%', '55%'] : "55%",
         center: ["50%", "60%"],
         data: data.list,
-        label: {
-          normal: {
-            show: true,
-            position: "",
-            formatter: "{b}\n{d}%",
-            color: '#222222'
-          }
-        },
         labelLine: {
           lineStyle: {
             color: '#A4B1BD'
-          }
+          },
         },
-        itemStyle: {
-          emphasis: {
+        emphasis: {
+          itemStyle: {
             shadowBlur: 10,
             shadowOffsetX: 0,
             shadowColor: "rgba(0, 0, 0, 0.5)"
@@ -260,6 +257,11 @@ export const useInitAreaLineChart = () => {
         trigger: 'axis',
         axisPointer : {
           type : 'shadow'
+        },
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        borderColor: 'rgba(0,0,0,0)',
+        textStyle: {
+          color: '#fff'
         }
       },
       legend: {
@@ -319,11 +321,13 @@ export const useInitAreaLineChart = () => {
               fontSize: 16
             }
           },
-          itemStyle: {
-            normal: {
-              barBorderRadius: [3, 3, 3, 3],
-              // color: '#F79DA5'
-            }
+          emphasis: {
+            itemStyle: {
+              normal: {
+                barBorderRadius: [3, 3, 3, 3],
+                // color: '#F79DA5'
+              }
+            },
           },
           barWidth: '30px',
           type: 'bar'
@@ -383,7 +387,12 @@ export const useInitMonthSaleLineChart = (data: IMonthSaleLine) => {
       }
     },
     tooltip: {
-      trigger: 'axis'
+      trigger: 'axis',
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      borderColor: 'rgba(0,0,0,0)',
+      textStyle: {
+        color: '#fff'
+      }
     },
 
     legend: {
@@ -521,7 +530,12 @@ export const useInitContractAmountLineChart = (data: IMonthContractAmount) => {
       }
     },
     tooltip: {
-      trigger: 'axis'
+      trigger: 'axis',
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      borderColor: 'rgba(0,0,0,0)',
+      textStyle: {
+        color: '#fff'
+      }
     },
 
     legend: {
@@ -591,10 +605,12 @@ export const useInitContractAmountLineChart = (data: IMonthContractAmount) => {
             color: '#222222'
           }
         },
-        itemStyle: {
-          normal: {
-            barBorderRadius: [3, 3, 3, 3]
-          }
+        emphasis: {
+          itemStyle: {
+            normal: {
+              barBorderRadius: [3, 3, 3, 3]
+            }
+          },
         },
         barWidth: '20px',
         data: data.addNumList
@@ -611,10 +627,12 @@ export const useInitContractAmountLineChart = (data: IMonthContractAmount) => {
             color: '#222222'
           }
         },
-        itemStyle: {
-          normal: {
-            barBorderRadius: [3, 3, 3, 3],
-            // color: '#F79DA5'
+        emphasis: {
+          itemStyle: {
+            normal: {
+              barBorderRadius: [3, 3, 3, 3],
+              // color: '#F79DA5'
+            }
           }
         },
         barWidth: '20px',
@@ -676,6 +694,11 @@ export const useInitImportantMessageBarChart = (data: IFirstPartyNatureChartMode
       trigger: 'axis',
       axisPointer: {
         type: 'shadow'
+      },
+      backgroundColor: 'rgba(0,0,0,0.5)',
+      borderColor: 'rgba(0,0,0,0)',
+      textStyle: {
+        color: '#fff'
       }
     },
     legend: {
@@ -702,7 +725,7 @@ export const useInitImportantMessageBarChart = (data: IFirstPartyNatureChartMode
     },
     yAxis: {
       type: 'category',
-      data: ['1'],
+      data: [' '],
       show: false
     },
     series: data.list.map((t, index) => {
@@ -723,11 +746,13 @@ export const useInitImportantMessageBarChart = (data: IFirstPartyNatureChartMode
           show: true,
           position: 'insideRight'
         },
-        itemStyle: {
-          normal: {
-            barBorderRadius: reaius,
-            // color: '#F79DA5'
-          }
+        emphasis: {
+          itemStyle: {
+            normal: {
+              barBorderRadius: reaius,
+              // color: '#F79DA5'
+            }
+          },
         },
         barWidth: '30px',
         data: [t.value]
