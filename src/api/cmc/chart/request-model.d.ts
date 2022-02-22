@@ -3,16 +3,20 @@ declare namespace Param {
     isContract: number
   }
 
-  interface IFindReportContractDist {
+  interface IReportFindContractDist {
     date: string
   }
 
-  interface IFindReportContractDept {
+  interface IReportFindContractDept {
     date: string
   }
 
-  interface IFindReportAreaDistByAreaOrgId {
+  interface IReportFindAreaDistByAreaOrgId {
     date: string
+    areaOrgId: string
+  }
+  interface IReportFindContractTrend {
+    year: string
     areaOrgId: string
   }
 }

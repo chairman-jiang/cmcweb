@@ -1,34 +1,40 @@
 import { primaryRequest } from "@/utils/request";
 import { createCmcUrl } from '../other';
 
-export const findReportContractBoard = (data: Param.IFindContractBoard) => primaryRequest<API.findReportContractBoardModel>({
+export const reportFindContractBoard = (data: Param.IFindContractBoard) => primaryRequest<API.reportFindContractBoardModel>({
   url: createCmcUrl('/report/findContractBoard'),
   method: 'GET',
   data,
   errorMsgFlag: true
 });
 
-export const findReportContractSellAnalyzeTotalVo = () => primaryRequest<API.findReportContractSellAnalyzeTotalVo>({
+export const reportFindContractSellAnalyzeTotalVo = () => primaryRequest<API.reportFindContractSellAnalyzeTotalVo>({
   url: createCmcUrl('/report/findContractSellAnalyzeTotalVo'),
   method: 'GET',
   data: {},
   errorMsgFlag: true
 });
 
-export const findReportContractDist = (data: Param.IFindReportContractDist) => primaryRequest<API.findReportContractDist>({
+export const reportFindContractDist = (data: Param.IReportFindContractDist) => primaryRequest<API.reportFindContractDist>({
   url: createCmcUrl('/report/findContractDist'),
   method: 'GET',
   data
 });
 
-export const findReportContractDept = (data: Param.IFindReportContractDept) => primaryRequest<API.findReportContractDept>({
+export const reportFindContractDept = (data: Param.IReportFindContractDept) => primaryRequest<API.reportFindContractDept>({
   url: createCmcUrl('/report/findContractDept'),
   method: 'GET',
   data
 });
 
-export const findReportAreaDistByAreaOrgId = (data: Param.IFindReportAreaDistByAreaOrgId) => primaryRequest<API.findReportAreaDistByAreaOrgId>({
+export const reportFindAreaDistByAreaOrgId = (data: Param.IReportFindAreaDistByAreaOrgId) => primaryRequest<API.reportFindtAreaDistByAreaOrgId>({
   url: createCmcUrl('/report/findAreaDistByAreaOrgId'),
+  method: 'GET',
+  data
+});
+
+export const reportFindContractTrend = (data: Param.IReportFindContractTrend) => primaryRequest<API.reportFindContractTrend>({
+  url: createCmcUrl('/report/findContractTrend'),
   method: 'GET',
   data
 });

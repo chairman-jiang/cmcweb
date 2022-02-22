@@ -10,6 +10,15 @@ export interface ISaleContractMoneyPieOption {
   handleContractMoneyPieClick: () => void
 }
 
-export type contractMoneyTableDataType = API.findReportContractDist | API.findReportAreaDistByAreaOrgId | API.findReportContractDept;
+export type contractMoneyTableDataType = API.reportFindContractDist | API.reportFindtAreaDistByAreaOrgId | API.reportFindContractDept;
 
 export type initChartDataLabelType = 'areaName' | 'proviceName' | 'departmentName';
+
+export interface IContractMoneyTrendLineOption {
+  legend: string[]
+  xAxis: string[],
+  totalMoney: number[],
+  receiptMoney: number[],
+  overdueMoney: number[],
+  [index: string]: any
+}

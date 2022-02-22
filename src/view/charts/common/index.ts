@@ -6,6 +6,8 @@ export const pieColor = ['#3B6AF6', '#5E86FF', '#8F63E9', '#8453E9', '#E139A3', 
 
 export const monthList: string[] = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'];
 
+export const monthNumberList:  number[] = Array(12).fill(0).map((_, index) => index + 1);
+
 /**
  * @param list 
  * @returns max: 最大数 interval: 图表背景线数量

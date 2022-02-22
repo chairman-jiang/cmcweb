@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="contract-money-chart">
-        <div class="contract-money-chart__header">
+        <div class="contract-money-chart__header chartview-header">
           <div class="header-title__left">
             <span class="title-text">合同金额分布情况</span>
             <a-radio-group v-model:value="contractMoneyRadio">
@@ -62,16 +62,39 @@
         </div>
       </div>
     </div>
+    <div class="print-view2 contract-money-trend">
+      <div class="contract-money-trend__heaeder chartview-header">
+        <div class="header-title__left">
+          <span class="title-text">合同金额趋势展示</span>
+          <a-date-picker v-model:value="contractMoneyTrendYearPickerValue" valueFormat="YY" picker="year" />
+          <span style="margin-left: 10px;">区域：</span>
+          <a-select v-model:value="contractMoneyTrendAreaId" allowClear placeholder="请输入" style="width: 140px;" @change="handleAllAreaSelectChange">
+            <a-select-option v-for="item in areaList" :key="item.orgId" :value="item.orgId">{{item.orgName}}</a-select-option>
+          </a-select>
+        </div>
+        <div class="header-tool__right">
+          <a-button>导出Excel</a-button>
+          <a-button>导出</a-button>
+          <a-button type="primary">打印</a-button>
+        </div>
+      </div>
+      <div class="contract-money-trend__linechart" id="contractMoneyTrendLine"></div>
+      <div class="contract-money-trend__table">
+        <a-table :data-source="contractMoneyTrendTableData" :pagination="false" size="middle" :columns="contractMoneyTrendTableColumn"></a-table>
+      </div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
-import { usePrint } from '../common';
+import { usePrint, monthNumberList, monthList } from '../common';
 import { useDataBoardList } from './common';
-import { findReportContractSellAnalyzeTotalVo, findReportContractDist, findReportContractDept, findReportAreaDistByAreaOrgId } from '@/api/cmc';
-import { ISaleContractMoneyPieOption, contractMoneyTableDataType, initChartDataLabelType } from './types';
+import { reportFindContractSellAnalyzeTotalVo, reportFindContractDist, reportFindContractDept,
+  reportFindAreaDistByAreaOrgId, orgsetFindAllArea, reportFindContractTrend
+} from '@/api/cmc';
+import { ISaleContractMoneyPieOption, contractMoneyTableDataType, initChartDataLabelType, IContractMoneyTrendLineOption } from './types';
 import { numberToLocal } from '@/utils';
-import { useInitContractMoneyPieChart, cmTableColumn } from './common';
+import { useInitContractMoneyPieChart, cmTableColumn, useInitContractMoneyLineChart, contractMoneyTrendTableColumn } from './common';
 
 const { printFlag, handlePrint } = usePrint();
 const dataBoardList = useDataBoardList();
@@ -83,7 +106,7 @@ const month = date.getMonth() + 1;
 const yearPickerValue = ref<string>(year.toString());
 const monthPickerValue = ref<string>(`${year}-${month < 10 ? `0${month}` : month}`);
 const areaId = ref<string | null>();
-const contractDistList = ref<API.findReportContractDist>();
+const contractDistList = ref<API.reportFindContractDist>();
 const contractMoneyTableData = ref<contractMoneyTableDataType>();
 // 表格列
 const contractMoneyTableColumn = computed(() => {
@@ -96,14 +119,14 @@ const contractMoneyTableColumn = computed(() => {
   }
 });
 
-// footer-total
+// areaTable-footer-total
 const totals = computed(() => {
   let moneyTotal: number = 0
   let percentageTotal: number = 0;
 
   contractMoneyTableData.value?.forEach(t => {
     moneyTotal += Number(t.money);
-    percentageTotal += Number(t.percent)
+    percentageTotal += Number(t.percent);
   });
 
   return {
@@ -112,6 +135,11 @@ const totals = computed(() => {
   }
 });
 
+// ----- 合同金额趋势部分逻辑 ----
+const contractMoneyTrendYearPickerValue = ref<string>(year.toString());
+const contractMoneyTrendAreaId = ref<string>('');
+const areaList = ref<API.orgsetFindAllArea>();
+const contractMoneyTrendTableData = ref();
 /**
  * @description tabs的change事件
  */
@@ -124,7 +152,7 @@ const handleAreaSelectChange = () => !areaId.value || areaId.value === 'all' ? g
 /**
  * @description 获取头部3卡片数据
 */
-findReportContractSellAnalyzeTotalVo().then(res => {
+reportFindContractSellAnalyzeTotalVo().then(res => {
   const keys = Reflect.ownKeys(res);
   dataBoardList.value.forEach(item => {
     const find = keys.find(key => item.key === key);
@@ -136,7 +164,7 @@ findReportContractSellAnalyzeTotalVo().then(res => {
   * @description 获取销售合同金额分布-区域
   */
 const getReportContractDist = () => {
-  findReportContractDist({ date: contractMoneyRadio.value === 'year' ? yearPickerValue.value : monthPickerValue.value }).then(res => {
+  reportFindContractDist({ date: contractMoneyRadio.value === 'year' ? yearPickerValue.value : monthPickerValue.value }).then(res => {
     contractDistList.value = [{ areaName: '全部', areaOrgId: 'all', money: '', percent: 0, percentStr: '' }, ...res];
     initContractMoneyChartData(res, 'areaName');
   }).catch(() => contractMoneyTableData.value = []);
@@ -146,7 +174,7 @@ const getReportContractDist = () => {
  * @description 获取销售合同金额分布-省份
  */
 const getReportAreaDistByAreaOrgId = () => {
-  findReportAreaDistByAreaOrgId({ 
+  reportFindAreaDistByAreaOrgId({ 
     date: contractMoneyRadio.value === 'year' ? yearPickerValue.value : monthPickerValue.value,
     areaOrgId: <string>areaId.value
   }).then(res => {
@@ -158,7 +186,7 @@ const getReportAreaDistByAreaOrgId = () => {
  * @description 部门
  */
 const getReportContractDept = () => {
-  findReportContractDept({date: contractMoneyRadio.value === 'year' ? yearPickerValue.value : monthPickerValue.value}).then(res => {
+  reportFindContractDept({date: contractMoneyRadio.value === 'year' ? yearPickerValue.value : monthPickerValue.value}).then(res => {
     initContractMoneyChartData(res, 'departmentName');
   }).catch(() => contractMoneyTableData.value = []);
 }
@@ -178,8 +206,6 @@ const initContractMoneyChartData = (list: contractMoneyTableDataType, label: ini
     handleContractMoneyPieClick
   };
   contractMoneyTableData.value = list;
-  let _moneyTotal: number = 0;
-  let _percentageTotal: number = 0;
   list.forEach(t => {
     Reflect.set(t, 'moneyToLocal', numberToLocal(t.money));
     const name = t[label] || Math.random() * 100 + 'io';
@@ -193,9 +219,58 @@ const initContractMoneyChartData = (list: contractMoneyTableDataType, label: ini
 }
 
 
+// ----- 合同金额趋势部分逻辑 ----
+
+orgsetFindAllArea().then(res => {
+  areaList.value = [{ orgId: '', orgName: '全部' }, ...res];
+});
+
+const getReportContractTrend = () => {
+  reportFindContractTrend({ year: contractMoneyTrendYearPickerValue.value, areaOrgId: <string>contractMoneyTrendAreaId.value }).then(res => {
+    contractMoneyTrendTableData.value = [{ title: '合同总额', key: 'totalMoney' }, { title: '收款总额', key: 'receiptMoney' }, { title: '逾期总额', key: 'overdueMoney' }].map(t => {
+      const obj = {}
+      monthNumberList.forEach(month => {
+        let curStr = `${contractMoneyTrendYearPickerValue.value}-${month < 10 ? '0' + month : month}`;
+        let find = res.find(f => f.month === curStr);
+        Reflect.set(obj, month, find ? find[t.key] : '');
+        Reflect.set(obj, `${month}Text`, numberToLocal(find ? find[t.key] : ''));
+      })
+      return {
+        title: t.title,
+        ...obj
+      }
+    });
+    const contractMoneyTrendLineOption: IContractMoneyTrendLineOption = {
+      legend: ['合同总额', '收款总额', '逾期总额'],
+      xAxis: monthList,
+      totalMoney: [],
+      receiptMoney: [],
+      overdueMoney: []
+    };
+    const mapping: { [index: string]: string } = {
+      0: 'totalMoney',
+      1: 'receiptMoney',
+      2: 'overdueMoney'
+    };
+    contractMoneyTrendTableData.value.forEach((t: any, index: number) => {
+      monthNumberList.forEach(month => {
+        contractMoneyTrendLineOption[mapping[index]].push(t[month]);
+      });
+    });
+    useInitContractMoneyLineChart(contractMoneyTrendLineOption);
+  });
+}
+
+/**
+ * @description 全部区域的change事件
+ */
+const handleAllAreaSelectChange = () => {
+  getReportContractTrend();
+}
 
 onMounted(() => {
   getReportContractDist();
+  getReportContractTrend();
 });
 
 
@@ -236,17 +311,6 @@ onMounted(() => {
   }
 
   .contract-money-chart {
-    &__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 0.25rem 0px;
-      .title-text {
-        font-size: .18rem;
-        font-weight: bold;
-        margin-right: 0.2rem;
-      }
-    }
     &__content {
       display: flex;
       .content-chart {
@@ -261,6 +325,31 @@ onMounted(() => {
         border-radius: 0.04rem;
         overflow: hidden;
       }
+    }
+  }
+
+  .chartview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.25rem 0px;
+    .title-text {
+      font-size: .18rem;
+      font-weight: bold;
+      margin-right: 0.2rem;
+    }
+  }
+
+  .contract-money-trend {
+    &__linechart {
+      height: 4.26rem;
+      background: white;
+      box-shadow: 0rem .02rem .09rem 0rem rgba(224,224,224,0.14);
+      border-radius: .04rem;
+      margin-bottom: .2rem;
+    }
+    &__table {
+      overflow: hidden;
     }
   }
 }

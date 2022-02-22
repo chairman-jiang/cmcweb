@@ -70,7 +70,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { findReportContractBoard } from '@/api/cmc';
+import { reportFindContractBoard } from '@/api/cmc';
 import { useDataBoardList, useChartList, useInitAreaPieChart, useInitAreaLineChart, useInitMonthSaleLineChart, useInitContractAmountLineChart, useInitImportantMessageBarChart } from './common';
 import { IAreaPieChartModel, IAreaLineChartModel, IMonthSaleLine, IMonthContractAmount, IFirstPartyNatureChartModel } from './types';
 import { monthList } from '../common';
@@ -83,7 +83,7 @@ const chartList = useChartList();
 
 const { printFlag, handlePrint } = usePrint(Array(5).fill(0).map((_, index) => `.print-view${index + 1}`));
 
-findReportContractBoard({ isContract: 1 }).then(res => {
+reportFindContractBoard({ isContract: 1 }).then(res => {
   // 顶部4条看板
   const convertValue = (val: string) : string => numberReg.test(val) ? Number(val).toLocaleString() : '';
   const now = new Date();

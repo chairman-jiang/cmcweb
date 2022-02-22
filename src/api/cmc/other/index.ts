@@ -5,4 +5,4 @@ export const getVersion = () => primaryRequest<API.GetVersionModel>({
   url: createCmcUrl('/getVersion'),
   method: 'GET',
   data: {}
-})
+});
