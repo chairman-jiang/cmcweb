@@ -230,3 +230,23 @@ export const useInitContractMoneyLineChart = (data: IContractMoneyTrendLineOptio
 };
 
 export const contractMoneyTrendTableColumn = monthNumberList.map(t => ({ title: `${t}月`, dataIndex: `${t}Text` }));
+const provincekRankTableColumn = [
+  { title: '排名', dataIndex: 'index', align: 'center' },
+  { title: '省份', dataIndex: 'proviceName', align: 'center' },
+  { title: '合同金额(万元)', dataIndex: 'money', align: 'center' }
+];
+
+export const provincekTopRankTableColumn = [
+  {
+    title: '前5名',
+    children: provincekRankTableColumn
+  }
+];
+
+export const provincekLowerRankTableColumn = [
+  {
+    title: '后5名',
+    children: provincekRankTableColumn
+  }
+];
+

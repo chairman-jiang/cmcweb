@@ -83,6 +83,31 @@
         <a-table :data-source="contractMoneyTrendTableData" :pagination="false" size="middle" :columns="contractMoneyTrendTableColumn"></a-table>
       </div>
     </div>
+    <div class="print-view3 province-ranking">
+      <div class="chartview-header">
+        <div class="header-title__left">
+          <span class="title-text">省级合同排名展示</span>
+          <a-radio-group v-model:value="provinceRankingRadio">
+            <a-radio value="year">按年度展示</a-radio>
+            <a-radio value="month">按月度展示</a-radio>
+          </a-radio-group>
+          <a-date-picker v-model:value="provinceRankingYearPickerValue" valueFormat="YY" picker="year" />
+          <a-button type="primary" style="margin-left: 20px;">查看全部</a-button>
+        </div>
+        <div class="header-tool__right">
+          <a-button>导出</a-button>
+          <a-button type="primary">打印</a-button>
+        </div>
+      </div>
+      <div class="province-ranking__table">
+        <div class="table-first__left">
+          <a-table :data-source="provincekTopRankTableData" :pagination="false" size="middle" :columns="provincekTopRankTableColumn"></a-table>
+        </div>
+        <div class="table-last__right">
+          <a-table :data-source="provincekLowerRankTableData" :pagination="false" size="middle" :columns="provincekLowerRankTableColumn"></a-table>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -94,7 +119,9 @@ import { reportFindContractSellAnalyzeTotalVo, reportFindContractDist, reportFin
 } from '@/api/cmc';
 import { ISaleContractMoneyPieOption, contractMoneyTableDataType, initChartDataLabelType, IContractMoneyTrendLineOption } from './types';
 import { numberToLocal } from '@/utils';
-import { useInitContractMoneyPieChart, cmTableColumn, useInitContractMoneyLineChart, contractMoneyTrendTableColumn } from './common';
+import { useInitContractMoneyPieChart, cmTableColumn, useInitContractMoneyLineChart,
+  contractMoneyTrendTableColumn, provincekTopRankTableColumn, provincekLowerRankTableColumn
+} from './common';
 
 const { printFlag, handlePrint } = usePrint();
 const dataBoardList = useDataBoardList();
@@ -140,6 +167,13 @@ const contractMoneyTrendYearPickerValue = ref<string>(year.toString());
 const contractMoneyTrendAreaId = ref<string>('');
 const areaList = ref<API.orgsetFindAllArea>();
 const contractMoneyTrendTableData = ref();
+
+// ----- 省份排名部分逻辑 ----
+const provinceRankingRadio = ref<'year' | 'month'>('year');
+const provinceRankingYearPickerValue = ref<string>(year.toString());
+const provincekTopRankTableData = ref();
+const provincekLowerRankTableData = ref();
+
 /**
  * @description tabs的change事件
  */
@@ -350,6 +384,20 @@ onMounted(() => {
     }
     &__table {
       overflow: hidden;
+    }
+  }
+  .province-ranking {
+    &__table {
+      display: flex;
+      &>div {
+        flex: 1;
+      }
+      .table-first__left {
+        margin-right: 0.14rem;
+      }
+      .table-last__right {
+        margin-left: 0.14rem;
+      }
     }
   }
 }
