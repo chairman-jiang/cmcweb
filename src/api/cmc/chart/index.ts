@@ -38,3 +38,9 @@ export const reportFindContractTrend = (data: Param.IReportFindContractTrend) =>
   method: 'GET',
   data
 });
+
+export const reportFindSellContractProvinceTop = (data: Param.IReportFindSellContractProvinceTop) => primaryRequest<API.reportFindSellContractProvinceTop>({
+  url: createCmcUrl('/report/findSellContractProvinceTop'),
+  method: 'GET',
+  data
+});

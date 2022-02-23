@@ -201,12 +201,10 @@ export const useInitContractMoneyLineChart = (data: IContractMoneyTrendLineOptio
         symbolSize: 10,
         data: data.receiptMoney,
         label: {
-          normal: {
-            show: false,
-            position: 'bottom',
-            formatter: '{c}',
-            color: ['black']
-          }
+          show: false,
+          position: 'bottom',
+          formatter: '{c}',
+          color: ['black']
         }
       },
       {
@@ -216,12 +214,10 @@ export const useInitContractMoneyLineChart = (data: IContractMoneyTrendLineOptio
         symbolSize: 10,
         data: data.overdueMoney,
         label: {
-          normal: {
-            show: false,
-            position: 'bottom',
-            formatter: '{c}',
-            color: ['black']
-          }
+          show: false,
+          position: 'bottom',
+          formatter: '{c}',
+          color: ['black']
         }
       }
     ]
@@ -229,9 +225,18 @@ export const useInitContractMoneyLineChart = (data: IContractMoneyTrendLineOptio
   chart.setOption(options);
 };
 
+
+
 export const contractMoneyTrendTableColumn = monthNumberList.map(t => ({ title: `${t}月`, dataIndex: `${t}Text` }));
+
 const provincekRankTableColumn = [
-  { title: '排名', dataIndex: 'index', align: 'center' },
+  {
+    title: '排名',
+    dataIndex: 'index',
+    align: 'center',
+    width: 50,
+    customRender: ({ index }: { index: number }) => `${index + 1}`
+  },
   { title: '省份', dataIndex: 'proviceName', align: 'center' },
   { title: '合同金额(万元)', dataIndex: 'money', align: 'center' }
 ];
@@ -249,4 +254,3 @@ export const provincekLowerRankTableColumn = [
     children: provincekRankTableColumn
   }
 ];
-

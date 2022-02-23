@@ -93,4 +93,9 @@ declare namespace API {
     totalMoney: string
     [index: string]: string
   }[]
+
+  type reportFindSellContractProvinceTop = {
+    firstTop: { money: string; proviceName: string; proviceOrgId: string }[]
+    lastTop: { money: string; proviceName: string; proviceOrgId: string }[]
+  }
 }

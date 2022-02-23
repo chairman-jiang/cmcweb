@@ -19,4 +19,7 @@ declare namespace Param {
     year: string
     areaOrgId: string
   }
+  interface IReportFindSellContractProvinceTop {
+    date: string
+  }
 }

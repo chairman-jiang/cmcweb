@@ -115,7 +115,7 @@ import { computed, onMounted, ref } from 'vue';
 import { usePrint, monthNumberList, monthList } from '../common';
 import { useDataBoardList } from './common';
 import { reportFindContractSellAnalyzeTotalVo, reportFindContractDist, reportFindContractDept,
-  reportFindAreaDistByAreaOrgId, orgsetFindAllArea, reportFindContractTrend
+  reportFindAreaDistByAreaOrgId, orgsetFindAllArea, reportFindContractTrend, reportFindSellContractProvinceTop
 } from '@/api/cmc';
 import { ISaleContractMoneyPieOption, contractMoneyTableDataType, initChartDataLabelType, IContractMoneyTrendLineOption } from './types';
 import { numberToLocal } from '@/utils';
@@ -171,6 +171,7 @@ const contractMoneyTrendTableData = ref();
 // ----- 省份排名部分逻辑 ----
 const provinceRankingRadio = ref<'year' | 'month'>('year');
 const provinceRankingYearPickerValue = ref<string>(year.toString());
+const provinceRankingMonthPickerValue = ref<string>(year.toString());
 const provincekTopRankTableData = ref();
 const provincekLowerRankTableData = ref();
 
@@ -302,9 +303,18 @@ const handleAllAreaSelectChange = () => {
   getReportContractTrend();
 }
 
+// 省份排名
+const getReportSellContractProvinceTop = () => {
+  reportFindSellContractProvinceTop({ date: provinceRankingRadio.value === 'year' ? provinceRankingYearPickerValue.value : provinceRankingMonthPickerValue.value }).then(res => {
+    provincekTopRankTableData.value = res.firstTop;
+    provincekLowerRankTableData.value = res.lastTop;
+  });
+}
+
 onMounted(() => {
   getReportContractDist();
   getReportContractTrend();
+  getReportSellContractProvinceTop();
 });
 
 

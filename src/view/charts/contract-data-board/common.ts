@@ -224,6 +224,15 @@ export const useInitAreaPieChart = (data: IAreaPieChartModel) => {
   世爻和应爻
   本卦中 2爻是世爻, 5爻是应爻
   变卦中 初爻是应爻, 4爻是世爻
+
+  甲 乙 丙  丁 戊  己 庚 辛 壬  癸
+  4  5  6  7  8  9  0  1  2  3
+
+  鼠 牛 虎 兔 龙 蛇 马 羊 猴 鸡 狗 猪
+  子 丑 寅 卯 辰 巳 午 未 申 酉 戌 亥
+  
+  乾 兑 离 震 巽 坎 艮 坤
+
 */
 
 export const useInitAreaLineChart = () => {
