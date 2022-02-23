@@ -230,7 +230,7 @@ export const useInitAreaPieChart = (data: IAreaPieChartModel) => {
 
   鼠 牛 虎 兔 龙 蛇 马 羊 猴 鸡 狗 猪
   子 丑 寅 卯 辰 巳 午 未 申 酉 戌 亥
-  
+
   乾 兑 离 震 巽 坎 艮 坤
 
 */
@@ -677,8 +677,8 @@ export const useInitContractAmountLineChart = (data: IMonthContractAmount) => {
 };
 
 export const useInitImportantMessageBarChart = (data: IFirstPartyNatureChartModel) => {
-  let chart = echarts.init(<HTMLElement>document.getElementById('importantMessageBarChart'));
-  let option = {
+  const chart = echarts.init(<HTMLElement>document.getElementById('importantMessageBarChart'));
+  const option = {
     color: ['#2E5BFF', '#FFC502', '#5E86FF', '#2BCCB5', '#F4733B'],
     title: {
       text: ['{a|·}', `{b|甲方性质占比}`].join(''),

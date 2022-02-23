@@ -48,6 +48,8 @@ export default defineConfig({
         modifyVars: {
           'primary-color': '#3853fd',
           'link-color': '#3853fd',
+          'table-header-bg': '#f9fbff',
+          'table-border-color': '#edf1f4',
           // 'link-color': '#5e81ff',
           // 'menu-dark-color': '#1F263E',
           // 'menu-dark-bg': '#1F263E',
