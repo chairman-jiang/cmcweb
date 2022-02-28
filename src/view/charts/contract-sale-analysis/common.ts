@@ -225,7 +225,10 @@ export const useInitContractMoneyLineChart = (data: IContractMoneyTrendLineOptio
   chart.setOption(options);
 };
 
-export const contractMoneyTrendTableColumn = monthNumberList.map(t => ({ title: `${t}月`, dataIndex: `${t}Text` }));
+export const contractMoneyTrendTableColumn = [
+  { title: '单位(元)', dataIndex: 'title', align: 'center' },
+  ...monthNumberList.map(t => ({ title: `${t}月`, dataIndex: `${t}Text`, align: 'center' }))
+];
 
 const provincekRankTableColumn = [
   {

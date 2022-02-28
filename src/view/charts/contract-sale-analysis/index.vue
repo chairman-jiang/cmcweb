@@ -383,7 +383,6 @@ onMounted(() => {
       margin-right: 0.2rem;
     }
   }
-
   .contract-money-trend {
     &__linechart {
       height: 4.26rem;

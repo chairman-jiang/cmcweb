@@ -192,55 +192,12 @@ export const useInitAreaPieChart = (data: IAreaPieChartModel) => {
   chart.setOption(option);
 };
 
-/*
-  以钱三文, 熏于炉上, 致敬而祝曰(先洗手, 准备三个硬币,心无杂念, 虔诚祝曰)
-  铜钱匿于双手内, 双手抬高 高度大于等于头顶
-  起下卦前祝曰:
-    高仓不言,叩之即应
-    列圣有灵,感而自通
-    某姓虔诚(自报姓名)
-    有事关心(禀名事由和问题)
-    狐疑犹豫,不能自决
-    吉凶得失,为卦是凭
-    仰望圣慈,明彰昭报
-  上卦前祝曰:
-    某宫二象, 吉凶未判, 再求某象三爻, 已成一卦
-
-  六爻卦构成:
-  1.日期与干支历和旬空(在古代用干支历表示年月日, 其中地支作用大一些, 运用地支测出五行生克关系,推出本卦利害福祸关系)
-  2.卦名,卦宫和64卦
-  3.本卦,变卦(也叫之卦),静卦
-  4.64卦配装五行
-  5.装世爻和应爻
-  6.装六亲
-  7.扶神
-  8.装六神
-
-  日期生成干支历和旬空
-  1.生成干支历, 才能知道一个卦的天时和五行生克关系, 得月支和日支生者, 最为旺. 被月支和日支所克者,最衰
-  2.断六爻卦和天干没多大关系, 一般情况下不看日期上和卦里的天干
-  3.旬空: 中国古代按一个天干的周期为一个小周期(就像现在按周来安排工作一样),天干有10个, 但是地支有12个,那10天里 肯定有两个生肖值不了班,那值不了班的生肖影响力就可能不存在. 不值班的小动物(生肖, 地支)就叫在本旬内旬空
-
-  世爻和应爻
-  本卦中 2爻是世爻, 5爻是应爻
-  变卦中 初爻是应爻, 4爻是世爻
-
-  甲 乙 丙  丁 戊  己 庚 辛 壬  癸
-  4  5  6  7  8  9  0  1  2  3
-
-  鼠 牛 虎 兔 龙 蛇 马 羊 猴 鸡 狗 猪
-  子 丑 寅 卯 辰 巳 午 未 申 酉 戌 亥
-
-  乾 兑 离 震 巽 坎 艮 坤
-
-*/
-
 export const useInitAreaLineChart = () => {
   const router = useRouter();
   return (data: IAreaLineChartModel) => {
-    let { max, interval } = chartMax(data.list);
-    let chart = echarts.init(<HTMLElement>document.getElementById(data.lineId));
-    let option = {
+    const { max, interval } = chartMax(data.list);
+    const chart = echarts.init(<HTMLElement>document.getElementById(data.lineId));
+    const option = {
       title: {
         text: ['{a|·}', `{b|${data.lineText}}`].join(''),
         subtext: data.lineSubText,
